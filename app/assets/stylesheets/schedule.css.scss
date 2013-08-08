@@ -1,0 +1,30 @@
+@import "padule";
+
+.schedule-sidebar {
+  @include box-emboss;
+  .schedule-sidenav {
+    background-color: #EEE;
+
+    li {
+      @include line-bottom;
+    }
+
+    a {
+      color: #716B7A;
+      display: block;
+      padding: 10px;
+      @include ts-fff;
+      &:hover {
+        background-color: #DEDEDE;
+      }
+    }
+    .active:hover > a, .active:focus > a {
+      border-right: 1px solid #563D7C;
+
+    }
+  }
+}
+
+.detail-container {
+  padding: 10px;
+}

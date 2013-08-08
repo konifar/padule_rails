@@ -1,0 +1,48 @@
+!!!
+%html
+  %head
+    %title= "スケジュール管理"
+    =favicon_link_tag('favicon.ico')
+    %meta{:name => "keywords", :content => "スケジュール,調整"}
+    %meta{:name => "description", :content => "スケジュール,調整"}
+    %meta{:property => "og:title", :content => "Padule"}
+    %meta{:property => "og_image", :content => ""}
+    %meta{:property => "og:description", :content => ""}
+    %meta{:property => "og:type", :content => "website"}
+    %meta{:property => "og:url", :content => ""}
+    %meta{:property => "og:site_name", :content => "Padule"}
+
+    = stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css"
+    = stylesheet_link_tag "padule.css"
+
+  %body
+    .navbar.navbar-inverse.navbar-fixed-top.padule-nav
+      .container-fluid
+        = link_to image_tag('logo.png', :alt => "Padule", :class => "logo"), '../', :class => "navbar-brand"
+
+    .schedule-container.container-fluid
+      .row-fluid
+        .col-2.fill
+          .schedule-sidebar
+            %ul#eventList.nav.schedule-sidenav
+              %li
+                = link_to 'スケジュール', '#'
+              %li
+                = link_to 'スケジュール', '#'
+              %li
+                = link_to 'スケジュール', '#'
+        .col-10.fill
+          .detail-container
+            .schedule-container
+              %table.table.table-hover.table-condensed
+                %tr
+                  %td
+                    hoge
+                  %td
+                    hoge
+                %tr
+                  %td
+                    hoge
+                  %td
+                    hoge
+

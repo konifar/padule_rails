@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %title Padule
+    = stylesheet_link_tag    "application"
+
+    :javascript
+      if (window.padule == null) window.padule = { Models: {}, Collections: {}, Views: {},Routers: {} };
+
+    %meta{:charset => "utf-8"}
+    %meta{:name => "viewport", :content => "width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no"}
+    = csrf_meta_tags
+
+  %body
+    = yield
+    = javascript_include_tag "application"
+    = javascript_include_tag "padule"

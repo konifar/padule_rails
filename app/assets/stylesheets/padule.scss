@@ -1,0 +1,44 @@
+@import "compass";
+
+@mixin line-bottom($op1: .2, $op2: .3) {
+  border-bottom: 1px solid rgba(0, 0, 0, $op1);
+  @include box-shadow(rgba(255,255,255, $op2) 0 1px 0);
+}
+@mixin ts-fff($op: .1) {
+  text-shadow: -1px 1px rgba(0, 0, 0, $op);
+}
+@mixin gradient-top-lighten($color: #666, $lighten: 10%) {
+  background-color: $color;
+  @include filter-gradient(lighten($color, $lighten), $color, vertical);
+  @include background-image(linear-gradient(lighten($color, $lighten) 0%, $color 100%));
+}
+@mixin box-emboss($border: .15, $shadow: .05, $highlight: 1) {
+  border: 1px solid rgba(0, 0, 0, $border);
+  @include box-shadow(rgba(0, 0, 0, $shadow) -1px 1px 0, rgba(255, 255, 255, $highlight) -1px 1px 0 inset);
+}
+
+$nav-height: 40px;
+
+body {
+  background-color: #F8F8F8;
+  padding-top: $nav-height;
+}
+
+.padule-nav {
+  @include line-bottom(.2, .1);
+  $nav-padding: 4px;
+  @include gradient-top-lighten(#D5D5D5);
+  min-height: $nav-height;
+  .navbar-brand {
+    color: #FFFFFF;
+    padding: $nav-padding;
+  }
+  .logo {
+    height: $nav-height - $nav-padding*2;
+  }
+}
+
+.fill {
+  padding-left: 0;
+  padding-right: 0;
+}
