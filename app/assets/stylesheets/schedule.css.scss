@@ -26,5 +26,22 @@
 }
 
 .detail-container {
-  padding: 10px;
+  padding: 20px;
+
+  tr.disabled, tr.disabled:hover {
+    th, td {
+      background-color: #CCCCCC
+    }
+
+  }
+
+  tbody th {
+    max-width: 40px;
+  }
+
+  .schedule-btn {
+    min-width: 50px;
+    font-size: 14px;
+  }
 }
+

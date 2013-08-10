@@ -1,0 +1,3 @@
+<a class="btn btn-mini <%= @btn_class_name %> <%= @disabled %> schedule-btn" href="#">
+  <%= @text %>
+</a>
