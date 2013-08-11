@@ -1,11 +1,13 @@
 class padule.Views.Schedule extends Backbone.View
-  el: $ '.schedule-table-container'
+  el: $ '.detail-container'
+  className: '.schedule-table-container'
 
   initialize: ->
     _.bindAll @
     @view = new padule.Views.ScheduleTable
       collection: @collection
-    @render()
+    @listenTo @collection, 'sync', @render
 
   render: ->
-    @$el.html @view.render().el
+    @$el.html $('div').addClass('schedule-table-container').html()
+    @$el.find('.schedule-table-container').html @view.render().el

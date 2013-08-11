@@ -7,7 +7,8 @@ class padule.Views.EventListElement extends Backbone.View
 
   initialize: (options = {})->
     _.bindAll @
-    @schedules  = options.schedules
+    @schedules = options.schedules
+    @parent = options.parent
 
   render: ->
     @$el.html @template
@@ -16,9 +17,15 @@ class padule.Views.EventListElement extends Backbone.View
 
   showSchedule: (e)->
     e.preventDefault()
+    @_active()
+
     options =
       data:
         event_id: @model.id
       success: (result)=>
 
     @schedules.fetch options
+
+  _active: ->
+    @parent.$el.find('li').removeClass 'active'
+    @$el.addClass 'active'

@@ -9,6 +9,7 @@ class padule.Views.EventList extends Backbone.View
     view = new padule.Views.EventListElement
       model: event
       schedules: @schedules
+      parent: @
     @$el.append view.render().el
 
   renderAll: ->

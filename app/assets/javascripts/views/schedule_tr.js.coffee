@@ -4,7 +4,6 @@ class padule.Views.ScheduleTr extends Backbone.View
   initialize: (options = {})->
     _.bindAll @
     @is_header = options.is_header
-    @listenTo @collection, 'change:can_edit', @changeCanEdit()
 
   renderOne: (seeker_schedule)->
     if @is_header
@@ -30,9 +29,3 @@ class padule.Views.ScheduleTr extends Backbone.View
           model: @collection.schedule
           is_header: false
         @$el.append view.render().el
-
-  changeCanEdit: ->
-    if @collection.can_edit
-      @$el.removeClass 'disabled'
-    else
-      @$el.addClass 'disabled'

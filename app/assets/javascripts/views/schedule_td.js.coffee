@@ -7,8 +7,7 @@ class padule.Views.ScheduleTd extends Backbone.View
   initialize: ->
     _.bindAll @
     @listenTo @model, 'change:type', @render
-    @listenTo @model.collection, 'change:can_edit', @render
-    @render()
+    @listenTo @model, 'change:can_edit', @render
 
   render: ->
     @$el.html @template
@@ -22,7 +21,7 @@ class padule.Views.ScheduleTd extends Backbone.View
     @model.changeType()
 
   disabled: ->
-    if @model.isNG() or not @model.collection.can_edit
+    unless @model.get 'can_edit'
       'disabled'
     else
       ''

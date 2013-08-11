@@ -12,5 +12,6 @@ class padule.Views.ScheduleTbody extends Backbone.View
     @$el.append view.renderAll().el
 
   renderAll: ->
+    @$el.empty()
     @collection.each @renderOne
     @
