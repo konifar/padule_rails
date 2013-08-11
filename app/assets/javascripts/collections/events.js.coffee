@@ -3,4 +3,6 @@ class padule.Collections.Events extends Backbone.Collection
   url: '/events'
 
   initialize: =>
-    @fetch
+    options =
+      success: (result)=>
+    @fetch options

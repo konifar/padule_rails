@@ -1,12 +1,18 @@
 @import "padule";
 
 .schedule-sidebar {
-  @include box-emboss;
   .schedule-sidenav {
     background-color: #EEE;
 
     li {
       @include line-bottom;
+      &.active a {
+        font-weight: bold;
+        background-color: $body-color;
+        border-left: 4px solid #ff8600;
+        border-right: none;
+        outline: none;
+      }
     }
 
     a {
@@ -18,13 +24,27 @@
         background-color: #DEDEDE;
       }
     }
-    .active:hover > a, .active:focus > a {
-      border-right: 1px solid #563D7C;
-
-    }
   }
 }
 
 .detail-container {
-  padding: 10px;
+  margin: 20px;
+  .schedule-table-container {
+    padding: 12px;
+    background-color: #FEFEFE;
+    @include box-emboss;
+  }
+
+  tbody th {
+    max-width: 40px;
+  }
+
+  .schedule-btn {
+    min-width: 50px;
+    font-size: 14px;
+    &.disabled.btn-default {
+      @include opacity(.2);
+    }
+  }
 }
+

@@ -1,1 +1,1 @@
-<a href="#"><%= @event.name %></a>
+<a href="#"><%= @event.title %></a>

@@ -13,14 +13,15 @@
   @include background-image(linear-gradient(lighten($color, $lighten) 0%, $color 100%));
 }
 @mixin box-emboss($border: .15, $shadow: .05, $highlight: 1) {
-  border: 1px solid rgba(0, 0, 0, $border);
-  @include box-shadow(rgba(0, 0, 0, $shadow) -1px 1px 0, rgba(255, 255, 255, $highlight) -1px 1px 0 inset);
+  @include box-shadow(rgba(0, 0, 0, $shadow) 1px 1px 1px, rgba(255, 255, 255, $highlight) -1px 1px 0 inset);
 }
 
 $nav-height: 40px;
 
+$body-color: #F8F8F8;
+
 body {
-  background-color: #F8F8F8;
+  background-color: $body-color;
   padding-top: $nav-height;
 }
 
