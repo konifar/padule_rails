@@ -3,27 +3,38 @@ class padule.Views.EventListElement extends Backbone.View
   template: JST['templates/event']
 
   events:
-    'click a' : 'showSchedule'
+    'click a' : 'showAlert'
 
   initialize: (options = {})->
     _.bindAll @
-    @schedules = options.schedules
     @parent = options.parent
+    @listenTo @model, 'ignore_change', @showSchedule
+    @schedules = new padule.Collections.Schedules
+      event_: @model
+    @modal = options.modal
 
   render: ->
     @$el.html @template
       event: @model.toJSON()
     @
 
-  showSchedule: (e)->
+  showAlert: (e)->
+    @schedules.each (schedule)->
+      schedule.seeker_schedules.each (seeker_schedule) ->
+        console.log schedule.seeker_schedules
+
     e.preventDefault()
+    @modal.show @model
+
+  showSchedule: ->
     @_active()
+
+    new padule.Views.Schedule
+      collection: @schedules
 
     options =
       data:
         event_id: @model.id
-      success: (result)=>
-
     @schedules.fetch options
 
   _active: ->

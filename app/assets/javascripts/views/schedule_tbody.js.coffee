@@ -4,6 +4,7 @@ class padule.Views.ScheduleTbody extends Backbone.View
   initialize: ->
     _.bindAll @
     @listenTo @collection, 'add', @renderOne
+    @listenTo @collection, 'sync', @renderAll
 
   renderOne: (schedule)->
     view = new padule.Views.ScheduleTr

@@ -28,3 +28,17 @@
 
         .col-10.fill
           .detail-container
+
+    #alertModal.modal.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %button.close{:type=>'button', :aria=>{:hidden=>'modal-body'}, :data=>{:dismiss => 'modal'}}
+              &times;
+            %h4.modal-title
+          .modal-body
+          .modal-footer
+            %button#alertOK.btn.btn-primary{:type => 'button'}
+              はい
+            %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}
+              いいえ
