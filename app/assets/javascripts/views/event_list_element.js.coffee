@@ -42,6 +42,10 @@ class padule.Views.EventListElement extends Backbone.View
     new padule.Views.Schedule
       collection: @schedules
 
+    new padule.Views.ScheduleControl
+      collection: @schedules
+      event_: @model
+
     options =
       data:
         event_id: @model.id

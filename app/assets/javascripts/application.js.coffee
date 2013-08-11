@@ -1,5 +1,7 @@
 #= require libs/jquery-2.0.3.min
 #= require libs/bootstrap.min
+#= require libs/bootstrap-datepicker
+#= require libs/bootstrap-timepicker.min
 #= require libs/json2
 #= require libs/jquery.mockjax
 #= require libs/dateformat

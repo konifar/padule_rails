@@ -1,0 +1,13 @@
+<div>
+
+  <form class="schedule-add form-inline">
+    <div class="bootstrap-datepicker pull-left">
+      <input type="text" id="scheduleDatepicker" class="span2 form-control" placeholder="年月日">
+    </div>
+    <div class="bootstrap-timepicker pull-left">
+      <input id="scheduleTimepicker" class="span2 form-control" type="text" placeholder="開始時間">
+    </div>
+    <button type="submit" class="btn btn-default">日程追加</button>
+  </form>
+
+</div>

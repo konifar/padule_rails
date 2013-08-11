@@ -32,6 +32,23 @@
 
         .col-10.fill
           .detail-container
+            .schedule-table-container
+              %h4
+                %i.glyphicon.glyphicon-info-sign
+                Paduleへようこそ！スケジュールを作成するか、作成したスケジュールを選択してください。
+
+          .control-container.container
+            .col-3
+              %button#addScheduleButton.btn.btn-default.btn-lg
+                %i.glyphicon.glyphicon-plus
+                日程追加
+            .col-9
+              %a#confirmScheduleButton.btn.btn-warning.btn-lg
+                %i.glyphicon.glyphicon-ok
+                変更した日程を確定
+            %blockquote.pull-right
+              %p
+
 
     #alertModal.modal
       .modal-dialog

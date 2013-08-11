@@ -16,12 +16,16 @@
 
     li {
       @include line-bottom;
+      a {
+        @include line-right;
+      }
       &.active a {
         font-weight: bold;
-        background-color: $body-color;
+        background-color: #FEFEFE;
         border-left: 6px solid $orange;
         border-right: none;
         outline: none;
+        cursor: default;
       }
       input {
         margin: 6px;
@@ -41,13 +45,12 @@
   }
 }
 
+$detail-padding: 20px;
+
 .detail-container {
-  margin: 20px;
-  .schedule-table-container {
-    padding: 12px;
-    background-color: #FEFEFE;
-    @include box-emboss;
-  }
+  padding: $detail-padding;
+  background-color: #FEFEFE;
+  @include box-emboss;
 
   tr.disabled, tr.disabled:hover {
     th, td {
@@ -65,6 +68,31 @@
     &.disabled.btn-default {
       @include opacity(.2);
     }
+  }
+
+  .schedule-add > div {
+    margin-right: 6px;
+  }
+
+  #scheduleDatepicker {
+    width: 180px;
+  }
+  #scheduleTimepicker {
+    width: 180px;
+  }
+}
+
+.control-container {
+  background-color: #DFDFDF;
+  padding-top: 20px;
+  @include box-emboss;
+  button, a {
+    width: 100%;
+  }
+  blockquote {
+    margin-top: 6px;
+    margin-right: 16px;
+    margin-bottom: 10px;
   }
 }
 
