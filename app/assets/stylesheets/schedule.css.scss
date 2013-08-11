@@ -1,6 +1,16 @@
 @import "padule";
 
 .schedule-sidebar {
+  $font-color: #716B7A;
+  $orange: #ff8600;
+
+  #addEventButton {
+    padding: 10px;
+    button {
+      width: 100%;
+    }
+  }
+
   .schedule-sidenav {
     background-color: #EEE;
 
@@ -9,14 +19,18 @@
       &.active a {
         font-weight: bold;
         background-color: $body-color;
-        border-left: 4px solid #ff8600;
+        border-left: 6px solid $orange;
         border-right: none;
         outline: none;
+      }
+      input {
+        margin: 6px;
+        width: 80%;
       }
     }
 
     a {
-      color: #716B7A;
+      color: $font-color;
       display: block;
       padding: 10px;
       @include ts-fff;
@@ -33,6 +47,12 @@
     padding: 12px;
     background-color: #FEFEFE;
     @include box-emboss;
+  }
+
+  tr.disabled, tr.disabled:hover {
+    th, td {
+      background-color: #EEEEEE;
+    }
   }
 
   tbody th {

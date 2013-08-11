@@ -38,6 +38,7 @@ class padule.Models.SeekerSchedule extends Backbone.Model
     else if @isTemp()
       @set 'type', @types.ok
       can_edit = true
+    @collection.trigger 'change:disabled'
 
     _.each @collection.findBySeeker(@), (seeker_schedule) ->
       seeker_schedule.setCanEdit(can_edit)

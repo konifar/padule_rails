@@ -12,3 +12,8 @@ class padule.Collections.SeekerSchedules extends Backbone.Collection
           each.seeker.get('name') is seeker_schedule.seeker.get('name') and each.id isnt seeker_schedule.id
       result = result.concat filters
     result
+
+  hasTemp: ->
+    temp = @filter (seeker_schedule)->
+      seeker_schedule.isTemp()
+    temp.length > 0

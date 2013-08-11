@@ -13,7 +13,7 @@ class padule.Views.ScheduleTd extends Backbone.View
     @$el.html @template
       btn_class_name: @btnClassName()
       disabled: @disabled()
-      text: @text()
+      icon_class_name: @iconClassName()
     @
 
   changeType: (e)->
@@ -29,12 +29,22 @@ class padule.Views.ScheduleTd extends Backbone.View
   btnClassName: ->
     if @model.isConfirmed()
       'btn-success'
-    else if @model.isOK()
+    else if @model.isOK() and @model.get 'can_edit'
       'btn-primary'
-    else if @model.isNG()
-      'btn-default'
-    else if @model.isTemp()
+    else if @model.isTemp() and @model.get 'can_edit'
       'btn-warning'
+    else
+      'btn-default'
+
+  iconClassName: ->
+    if @model.isConfirmed()
+      'glyphicon-ok'
+    else if @model.isOK()
+      'glyphicon-thumbs-up'
+    else if @model.isNG()
+      'glyphicon-remove'
+    else if @model.isTemp()
+      'glyphicon-ok'
 
   text: ->
     if @model.isConfirmed()

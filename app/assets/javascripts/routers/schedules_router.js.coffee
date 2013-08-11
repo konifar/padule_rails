@@ -5,3 +5,4 @@ class padule.Routers.Schedules extends Backbone.Router
   schedules: ->
     new padule.Views.Event
       collection: new padule.Collections.Events
+      schedules: new padule.Collections.Schedules

@@ -25,17 +25,22 @@
         .col-2.fill
           .schedule-sidebar
             %ul#eventList.nav.schedule-sidenav
+            #addEventButton
+              %button.btn.btn-default.btn-sm
+                %i.glyphicon.glyphicon-plus
+                スケジュール追加
 
         .col-10.fill
           .detail-container
 
-    #alertModal.modal.fade
+    #alertModal.modal
       .modal-dialog
         .modal-content
           .modal-header
             %button.close{:type=>'button', :aria=>{:hidden=>'modal-body'}, :data=>{:dismiss => 'modal'}}
               &times;
-            %h4.modal-title
+            %i.glyphicon.glyphicon-question-sign
+            %span.modal-title
           .modal-body
           .modal-footer
             %button#alertOK.btn.btn-primary{:type => 'button'}
