@@ -6,6 +6,7 @@ class padule.Models.SeekerSchedule extends Backbone.Model
     ok: 1
     confirmed: 2
     temp: 3
+    default: -1
 
   initialize: ->
     @seeker = new padule.Models.Seeker @get 'seeker', {seeker_schedule: @}
@@ -14,7 +15,7 @@ class padule.Models.SeekerSchedule extends Backbone.Model
   setCanEdit: (can_edit = true)->
     if !can_edit
       @set 'can_edit', false
-    else if @isConfirmed() or @isNG()
+    else if @isConfirmed() or @isNG() or @isDefault()
       @set 'can_edit', false
     else
       @set 'can_edit', true
@@ -27,6 +28,9 @@ class padule.Models.SeekerSchedule extends Backbone.Model
 
   isNG: ->
     @get('type') is @types.ng
+
+  isDefault: ->
+    @get('type') is @types.default
 
   isTemp: ->
     @get('type') is @types.temp
@@ -42,3 +46,9 @@ class padule.Models.SeekerSchedule extends Backbone.Model
 
     _.each @collection.findBySeeker(@), (seeker_schedule) ->
       seeker_schedule.setCanEdit(can_edit)
+
+  changeTypeBySeeker: ->
+    if @isOK()
+      @set 'type', @types.default
+    else
+      @set 'type', @types.ok

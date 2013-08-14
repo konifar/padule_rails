@@ -33,8 +33,10 @@ class padule.Views.ScheduleTd extends Backbone.View
       'btn-primary'
     else if @model.isTemp() and @model.get 'can_edit'
       'btn-warning'
-    else
+    else if @model.isNG()
       'btn-default'
+    else
+      'btn-link'
 
   iconClassName: ->
     if @model.isConfirmed()
@@ -45,13 +47,5 @@ class padule.Views.ScheduleTd extends Backbone.View
       'glyphicon-remove'
     else if @model.isTemp()
       'glyphicon-ok'
-
-  text: ->
-    if @model.isConfirmed()
-      '確定'
-    else if @model.isOK()
-      '○'
-    else if @model.isNG()
-      '×'
-    else if @model.isTemp()
-      '候補'
+    else
+      'glyphicon-minus'

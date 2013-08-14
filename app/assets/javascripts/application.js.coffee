@@ -7,6 +7,7 @@
 #= require libs/dateformat
 #= require libs/underscore
 #= require libs/backbone
+#= require libs/backbone.localStorage
 #= require padule
 #= require mocks/mock_utils
 #= require_tree ./templates
@@ -44,3 +45,17 @@ window.padule.dateformatyyyyMMddWhhmm = (string_date) ->
     M = '0' + M
 
   return y + "/" + m + "/" + d + "(" + wNames[w] + ") " + h + ":" + M;
+
+window.padule.stringToDateYYYYMMDDHHMM = (stringdate) ->
+  dateFormat = new DateFormat("yyyy/MM/dd HH:mm");
+  date = dateFormat.parse(stringdate);
+  date
+
+
+Backbone.ajaxSync = Backbone.sync
+Backbone.sync = (method, model, options, error)->
+  if options.type is 'POST'
+    console.log method
+    Backbone.localSync method, model, options, error
+  else
+    Backbone.ajaxSync method, model, options, error

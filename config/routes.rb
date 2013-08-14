@@ -1,5 +1,7 @@
 Padule::Application.routes.draw do
   get "schedule/index"
+  get "seeker_schedule/index"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

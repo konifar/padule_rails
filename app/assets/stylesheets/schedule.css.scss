@@ -64,26 +64,14 @@ $detail-padding: 20px;
 
   .schedule-btn {
     min-width: 50px;
-    font-size: 14px;
     &.disabled.btn-default {
       @include opacity(.2);
     }
   }
 
-  .schedule-add > div {
-    margin-right: 6px;
-  }
-
-  #scheduleDatepicker {
-    width: 180px;
-  }
-  #scheduleTimepicker {
-    width: 180px;
-  }
 }
 
 .control-container {
-  background-color: #DFDFDF;
   padding-top: 20px;
   @include box-emboss;
   button, a {
@@ -93,6 +81,20 @@ $detail-padding: 20px;
     margin-top: 6px;
     margin-right: 16px;
     margin-bottom: 10px;
+  }
+
+  .schedule-add > div {
+    margin-right: 6px;
+  }
+
+  #scheduleDatepicker {
+    width: 120px;
+  }
+  #scheduleTimepicker {
+    width: 120px;
+  }
+  #addScheduleButton {
+    width: 120px;
   }
 }
 

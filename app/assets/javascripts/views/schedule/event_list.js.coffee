@@ -10,6 +10,9 @@ class padule.Views.EventList extends Backbone.View
       title: '未保存の修正があります。'
       contents: '保存せずに進みますか？'
 
+    @control = new padule.Views.ScheduleControl
+      collection: @schedules
+
     @renderAll()
 
   renderOne: (_event)->
@@ -17,6 +20,7 @@ class padule.Views.EventList extends Backbone.View
       model: _event
       parent: @
       modal: @modal
+      control: @control
       schedules: @schedules
     @$el.append view.render().el
 

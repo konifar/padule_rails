@@ -13,10 +13,12 @@ class padule.Views.EventListElement extends Backbone.View
     @listenTo @model, 'change', @render
     @schedules = options.schedules
     @modal = options.modal
+    @control = options.control
 
   updateOnEnter: (e)->
     if e.keyCode is 13
       @model.set 'title', @$el.find('input').val()
+      @model.add()
 
   render: ->
     if @model.isNew()
@@ -36,15 +38,16 @@ class padule.Views.EventListElement extends Backbone.View
 
   showSchedule: ->
     @_active()
+    @control.setEvent(@model).render()
+
+    console.log @model
 
     @schedules.reset()
 
+    console.log @schedules
+
     new padule.Views.Schedule
       collection: @schedules
-
-    new padule.Views.ScheduleControl
-      collection: @schedules
-      event_: @model
 
     options =
       data:

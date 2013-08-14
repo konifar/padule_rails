@@ -28,7 +28,7 @@ $nav-height: 40px;
 
 $body-color: #F8F8F8;
 
-body {
+html body {
   background-color: $body-color;
   padding-top: $nav-height;
 }
@@ -38,12 +38,16 @@ body {
   $nav-padding: 4px;
   @include gradient-top-lighten(#D5D5D5);
   min-height: $nav-height;
+  height: $nav-height;
   .navbar-brand {
     color: #FFFFFF;
     padding: $nav-padding;
   }
   .logo {
     height: $nav-height - $nav-padding*2;
+  }
+  .navbar-nav > li > a {
+    padding: 10px 15px;
   }
 }
 
