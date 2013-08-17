@@ -16,12 +16,10 @@ class padule.Views.Schedule extends Backbone.View
     @undelegateEvents()
 
   render: ->
-    if @collection.length > 0
-      @table = new padule.Views.ScheduleTable
-        collection: @collection
-      @tableContainer.html @table.render().el
+    @table = new padule.Views.ScheduleTable
+      collection: @collection
+    @tableContainer.html @table.render().el
 
     @control = new padule.Views.ScheduleControl
       collection: @collection
     @controlContainer.html @control.render().el
-

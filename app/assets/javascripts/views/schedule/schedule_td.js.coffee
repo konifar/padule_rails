@@ -11,13 +11,13 @@ class padule.Views.ScheduleTd extends Backbone.View
 
   render: (editable)->
     @$el.html @template
-      btn_class_name: @btnAttr().btn_class_name
-      icon_class_name: @btnAttr().icon_class_name
-      disabled: disabled
+      btn_class_name: @btnAttrs().btn_class_name
+      icon_class_name: @btnAttrs().icon_class_name
+      disabled: !@model.editable()
     @
 
   _changeDisabled: (editable)->
-    if editable && @model.editable
+    if editable && @model.editable()
       @$('.schedule-btn').removeClass 'disabled'
     else
       @$('.schedule-btn').removeClass('disabled').addClass 'disabled'

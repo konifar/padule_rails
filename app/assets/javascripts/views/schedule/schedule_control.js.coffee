@@ -2,7 +2,6 @@ class padule.Views.ScheduleControl extends Backbone.View
   template: JST['templates/schedule_control']
   events:
     'click #addScheduleButton' : 'addSchedule'
-    'click #confirmScheduleButton' : 'saveSchedule'
 
   initialize: ->
     @event = @collection.event
@@ -19,9 +18,7 @@ class padule.Views.ScheduleControl extends Backbone.View
       event_id: @event.id
       start_time: @_getStartTime()
     @collection.push new_schedule
-
-  saveSchedule: ->
-    @
+    new_schedule.save()
 
   _getStartTime: ->
     date = @$('#scheduleDatepicker').val()
@@ -31,11 +28,11 @@ class padule.Views.ScheduleControl extends Backbone.View
     datetime
 
   _initDatepicker: ->
-    $("#scheduleDatepicker").datepicker
+    @$("#scheduleDatepicker").datepicker
       format: 'yyyy/mm/dd'
 
   _initTimepicker: ->
-    $('#scheduleTimepicker').timepicker
+    @$('#scheduleTimepicker').timepicker
       minuteStep: 10
       showInputs: false
       showSeconds: false

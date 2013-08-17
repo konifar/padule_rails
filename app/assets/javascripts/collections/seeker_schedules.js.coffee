@@ -1,9 +1,9 @@
 class padule.Collections.SeekerSchedules extends Backbone.Collection
   model: padule.Models.SeekerSchedule
   url: '/seeker_schedules'
-  localStorage: new Store "seeker_schedules"
+  localStorage: new Store "seeker_schedule"
 
-  initialize: (options)->
+  initialize: (models, options)->
     @schedule = options.schedule
 
   resetType: ->
