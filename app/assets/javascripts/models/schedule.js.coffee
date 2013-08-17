@@ -3,17 +3,12 @@ class padule.Models.Schedule extends Backbone.Model
   localStorage: new Store "schedule"
 
   initialize: ->
-    @seeker_schedules = new padule.Collections.SeekerSchedules @get('seeker_schedules'), {schedule: @}
-
-  createInitial: ->
-    clone = @clone().seeker_schedules
-    clone.each (seeker_schedule) ->
-      seeker_schedule.set 'type', -1
-    clone
-
-  add: (event_id)->
-    options =
-      type: 'POST'
-      data:
-        event_id: event_id
-    Backbone.sync 'create', @,  options
+    if @has 'seeker_schedules'
+      @seeker_schedules = new padule.Collections.SeekerSchedules
+        collection: @get('seeker_schedules')
+        schedule: @
+    else if @collection.first()?.has 'seeker_schedules'
+      @seeker_schedules = @collection.first.seeker_schedules.clone().resetType()
+    else
+      @seeker_schedules = new padule.Collections.SeekerSchedules
+        schedule: @

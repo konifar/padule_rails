@@ -21,6 +21,6 @@
 
 <blockquote class="pull-right">
   <p>
-    共有URL : <%= @event_url %>
+    共有URL : <%= @event.url %>
   </p>
 </blockquote>

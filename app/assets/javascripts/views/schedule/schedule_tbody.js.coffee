@@ -4,15 +4,12 @@ class padule.Views.ScheduleTbody extends Backbone.View
   initialize: ->
     _.bindAll @
     @listenTo @collection, 'add', @renderOne
-    @listenTo @collection, 'sync', @renderAll
 
   renderOne: (schedule)->
-    view = new padule.Views.ScheduleTr
-      collection: schedule.seeker_schedules
-      is_header: false
-    @$el.append view.renderAll().el
+    view = new padule.Views.ScheduleTbodyTr
+      model: schedule
+    @$el.append view.render().el
 
-  renderAll: ->
-    @$el.empty()
+  render: ->
     @collection.each @renderOne
     @

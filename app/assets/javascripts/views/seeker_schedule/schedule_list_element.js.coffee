@@ -1,17 +1,18 @@
 class padule.Views.ScheduleListElement extends Backbone.View
   tagName: 'li'
-  template: JST['template/seeker_schedule_status']
+  template: JST['templates/seeker_schedule_status']
   events:
     'click .seeker-schedule-btn' : 'changeType'
 
-
   initialize: ->
     _.bindAll @
-    @listenTo @, 'change:type', @render
+    @seeker_schedule = new padule.Models.SeekerSchedule
+    @listenTo @seeker_schedule, 'change:type', @render
+    @model.seeker_schedules.push @seeker_schedule
 
   changeType: (e)->
     e.preventDefault()
-    @model.changeTypeBySeeker()
+    @seeker_schedule.changeTypeBySeeker()
 
   render: ->
     @$el.html @template
@@ -21,13 +22,13 @@ class padule.Views.ScheduleListElement extends Backbone.View
     @
 
   _btnClassName: ->
-    if @model.isOK()
+    if @seeker_schedule.isOK()
       'btn-success'
     else
       'btn-default'
 
   _iconClassName: ->
-    if @model.isOK()
+    if @seeker_schedule.isOK()
       'glyphicon-ok'
     else
-      'glyphicon-minus'
+      'glyphicon-remove'

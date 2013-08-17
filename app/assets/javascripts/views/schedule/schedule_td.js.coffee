@@ -7,45 +7,35 @@ class padule.Views.ScheduleTd extends Backbone.View
   initialize: ->
     _.bindAll @
     @listenTo @model, 'change:type', @render
-    @listenTo @model, 'change:can_edit', @render
+    @listenTo @model, 'changeEditable', @_changeDisabled
 
-  render: ->
+  render: (editable)->
     @$el.html @template
-      btn_class_name: @btnClassName()
-      disabled: @disabled()
-      icon_class_name: @iconClassName()
+      btn_class_name: @btnAttr().btn_class_name
+      icon_class_name: @btnAttr().icon_class_name
+      disabled: disabled
     @
+
+  _changeDisabled: (editable)->
+    if editable && @model.editable
+      @$('.schedule-btn').removeClass 'disabled'
+    else
+      @$('.schedule-btn').removeClass('disabled').addClass 'disabled'
 
   changeType: (e)->
     e.preventDefault()
     @model.changeType()
 
-  disabled: ->
-    unless @model.get 'can_edit'
-      'disabled'
-    else
-      ''
-
-  btnClassName: ->
+  btnAttrs: ->
     if @model.isConfirmed()
-      'btn-success'
-    else if @model.isOK() and @model.get 'can_edit'
-      'btn-primary'
-    else if @model.isTemp() and @model.get 'can_edit'
-      'btn-warning'
-    else if @model.isNG()
-      'btn-default'
-    else
-      'btn-link'
-
-  iconClassName: ->
-    if @model.isConfirmed()
-      'glyphicon-ok'
+      btn_class_name: 'btn-success'
+      icon_class_name: 'glyphicon-ok'
     else if @model.isOK()
-      'glyphicon-thumbs-up'
+      btn_class_name: 'btn-primary'
+      icon_class_name: 'glyphicon-thumbs-up'
     else if @model.isNG()
-      'glyphicon-remove'
-    else if @model.isTemp()
-      'glyphicon-ok'
+      btn_class_name: 'btn-default'
+      icon_class_name: 'glyphicon-remove'
     else
-      'glyphicon-minus'
+      btn_class_name: 'btn-link'
+      icon_class_name: 'glyphicon-minus'

@@ -19,7 +19,7 @@
       .container-fluid
         = link_to image_tag('logo.png', :alt => "Padule", :class => "logo"), '../', :class => "navbar-brand"
 
-    .seeker-schedule-controller.container-fluid
+    .seeker-schedule-container.container-fluid{:data=>{:eventid=>"1"}}
       .row-fluid
         .col-12
           .event-container
@@ -41,34 +41,19 @@
             .form-group
               %label{:for=>"inputEmail"}
                 メールアドレス（確認）
-              %input#inputEmail.input-sm.form-control{:type=>"email", :placeholder=>"メールアドレス"}
+              %input#inputEmail2.input-sm.form-control{:type=>"email", :placeholder=>"メールアドレス"}
 
           .edit-container
             %p
               ■ ご希望日時を選択してください。
             #seeker-schedule-edit
               %ul
-                %li
-                  %span
-                    2013/06/03 (月) 10:00〜
-                  %button.btn.btn-default.btn-sm
-                    %i.glyphicon.glyphicon-remove
-                %li
-                  %span
-                    2013/06/03 (月) 10:00〜
-                  %button.btn.btn-default.btn-sm
-                    %i.glyphicon.glyphicon-remove
-                %li
-                  %span
-                    2013/06/03 (月) 10:00〜
-                  %button.btn.btn-default.btn-sm
-                    %i.glyphicon.glyphicon-remove
 
           .seeker-container
             .form-group
               %label
                 コメント
-              %textarea.form-control{:rows=>"3"}
+              %textarea#inputComment.form-control{:rows=>"3"}
 
           .control-container
             %p

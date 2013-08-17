@@ -1,5 +1,2 @@
-<% if @event.title?: %>
-  <a href="#"><%= @event.title %></a>
-<% else: %>
-  <input type="text" class="form-control" placeholder="スケジュール名を入力">
-<% end %>
+<a href="#"><%= @event.title %></a>
+<input class="edit" type="text" class="form-control" placeholder="スケジュール名を入力">

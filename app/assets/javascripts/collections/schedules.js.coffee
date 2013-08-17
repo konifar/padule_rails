@@ -1,11 +1,12 @@
 class padule.Collections.Schedules extends Backbone.Collection
   model: padule.Models.Schedule
-  localStorage: new Store("schedules")
   url: "/schedules"
+  localStorage: new Store("schedule")
 
-  update: ->
-    options =
-      type: 'POST'
+  initialize: (models, options={})->
+    @event = options._event
+
+  fetchByEvent: ->
+    @fetch
       data:
-        @toJSON()
-    Backbone.sync 'create', @,  options
+        event_id: @event.id

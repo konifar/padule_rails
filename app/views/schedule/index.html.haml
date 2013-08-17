@@ -29,20 +29,20 @@
     .schedule-container.container-fluid
       .row-fluid
         .col-2.fill
-          .schedule-sidebar
+          #eventSidebar
             %ul#eventList.nav.schedule-sidenav
-            #addEventButton
-              %button.btn.btn-default.btn-sm
+            #addEventButtonContainer
+              %button.add-event-btn.btn.btn-default.btn-sm
                 %i.glyphicon.glyphicon-plus
                 スケジュール追加
 
         .col-10.fill
           .detail-container
+            .control-container
             .schedule-table-container
               %h4
                 %i.glyphicon.glyphicon-info-sign
                 Paduleへようこそ！スケジュールを作成するか、作成したスケジュールを選択してください。
-          .control-container.container
 
     #alertModal.modal
       .modal-dialog

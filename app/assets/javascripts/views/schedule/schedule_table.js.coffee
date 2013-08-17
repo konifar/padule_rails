@@ -10,6 +10,6 @@ class padule.Views.ScheduleTable extends Backbone.View
       collection: @collection
 
   render: ->
-    @$el.append @thead.el
-    @$el.append @tbody.el
+    @$el.append @thead.render().el
+    @$el.append @tbody.render().el
     @

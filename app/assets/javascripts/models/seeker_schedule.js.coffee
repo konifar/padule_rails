@@ -1,51 +1,44 @@
 class padule.Models.SeekerSchedule extends Backbone.Model
-  urlRoot: '/seeker_schedules/show'
+  urlRoot: '/seeker_schedules'
+  localStorage: new Store "seeker_schedule"
 
   types:
+    default: -1
     ng: 0
     ok: 1
     confirmed: 2
-    temp: 3
-    default: -1
 
   initialize: ->
     @seeker = new padule.Models.Seeker @get 'seeker', {seeker_schedule: @}
-    @setCanEdit()
-
-  setCanEdit: (can_edit = true)->
-    if !can_edit
-      @set 'can_edit', false
-    else if @isConfirmed() or @isNG() or @isDefault()
-      @set 'can_edit', false
-    else
-      @set 'can_edit', true
+    @schedule = @collection.schedule
 
   isConfirmed: ->
-    @get('type') is @types.confirmed
+    @get 'type' is @types.confirmed
 
   isOK: ->
-    @get('type') is @types.ok
+    @get 'type' is @types.ok
 
   isNG: ->
-    @get('type') is @types.ng
+    @get 'type' is @types.ng
 
   isDefault: ->
-    @get('type') is @types.default
-
-  isTemp: ->
-    @get('type') is @types.temp
+    @get 'type' is @types.default
 
   changeType: ->
     if @isOK()
-      @set 'type', @types.temp
-      can_edit = false
-    else if @isTemp()
+      @set 'type', @types.confirmed
+    else if @isConfirmed()
       @set 'type', @types.ok
-      can_edit = true
-    @collection.trigger 'change:disabled'
 
-    _.each @collection.findBySeeker(@), (seeker_schedule) ->
-      seeker_schedule.setCanEdit(can_edit)
+    @_changeEditable()
+
+  _changeEditable: ->
+    @collection.trigger 'changeEditable', @editable
+    _.each @collection.findBySeeker @, (seeker_schedule) ->
+      seeker_schedule.trigger 'changeEditable', editable
+
+  editable: ->
+    @get 'type' isnt @types.ng and @get 'type' isnt @types.confirmed
 
   changeTypeBySeeker: ->
     if @isOK()

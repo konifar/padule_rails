@@ -1,12 +1,14 @@
 class padule.Views.Event extends Backbone.View
-  el: $ '.schedule-sidebar'
+  el: $ '#eventSidebar'
 
-  initialize: (options={})->
+  events:
+    'click .add-event-btn' : 'addEvent'
+
+  initialize: ->
     _.bindAll @
-
     new padule.Views.EventList
       collection: @collection
-      schedules: options.schedules
+    @collection.fetch()
 
-    new padule.Views.EventAddButton
-      collection: @collection
+  addEvent: ->
+    @collection.push new padule.Models.Event

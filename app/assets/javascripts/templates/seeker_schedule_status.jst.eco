@@ -1,6 +1,6 @@
 <span>
-  <%= start_time %> 〜
+  <%= @start_time %> 〜
 </span>
-<button class="seeker-schedule-btn btn btn-sm <%= @btn_class_name %>">
-  <i class="glyphicon <%= @icon_class_name %>"></i>
+<button class="seeker-schedule-btn btn btn-sm <%= @btn_class %>">
+  <i class="glyphicon <%= @icon_class %>"></i>
 </button>

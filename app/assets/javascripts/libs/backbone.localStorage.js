@@ -136,7 +136,6 @@ Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(m
   var resp, errorMessage, syncDfd = $.Deferred && $.Deferred(); //If $ is having Deferred - use it.
 
   try {
-
     switch (method) {
       case "read":
         resp = model.id != undefined ? store.find(model) : store.findAll();
@@ -160,7 +159,8 @@ Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(m
   }
 
   if (resp) {
-    model.trigger("sync", model, resp, options);
+    // TODO This is almost bug... konishi
+    // model.trigger("sync", model, resp, options);
     if (options && options.success)
       if (Backbone.VERSION === "0.9.10") {
         options.success(model, resp, options);

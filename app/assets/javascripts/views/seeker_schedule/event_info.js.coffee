@@ -3,9 +3,9 @@ class padule.Views.EventInfo extends Backbone.View
 
   initialize: ->
     _.bindAll @
-    @listenTo @model, 'sync', 'render'
+    @listenTo @model, 'sync', @render
     @model.fetch()
 
   render: ->
-    @$el.find('legend').html @model.title
-    @$el.find('.text').html @model.text
+    @$el.find('legend').html @model.get 'title'
+    @$el.find('.text').html @model.get 'text'

@@ -3,65 +3,43 @@ class padule.Views.EventListElement extends Backbone.View
   template: JST['templates/event']
 
   events:
-    'click a' : 'showAlert'
+    'click a' : 'showSchedule'
+    'dblclick a' : 'editEvent'
     'keypress input[type=text]': 'updateOnEnter'
 
   initialize: (options = {})->
     _.bindAll @
-    @parent = options.parent
-    @listenTo @model, 'ignore_change', @showSchedule
     @listenTo @model, 'change', @render
-    @schedules = options.schedules
-    @modal = options.modal
-    @control = options.control
+    @listenTo @model, 'unactive', ->
+      @$el.removeClass 'active'
 
   updateOnEnter: (e)->
     if e.keyCode is 13
-      @model.set 'title', @$el.find('input').val()
-      @model.add()
+      @_close()
+
+  editEvent: ->
+    @$el.addClass 'editing'
+    @input.focus()
+
+  _close: ->
+    value = @input.val()
+    if value
+      @model.save {title: value}
+      @$el.removeClass 'editing'
 
   render: ->
-    if @model.isNew()
-      @$el.addClass 'new-event'
-
     @$el.html @template
       event: @model.toJSON()
+    @input = @$('.edit')
+    if @model.isNew()
+      @$el.addClass('editing');
     @
 
-  showAlert: (e)->
+  showSchedule: (e)->
     e.preventDefault()
-
-    if @_isChanged()
-      @modal.show @model
-    else
-      @showSchedule()
-
-  showSchedule: ->
-    @_active()
-    @control.setEvent(@model).render()
-
-    console.log @model
-
-    @schedules.reset()
-
-    console.log @schedules
+    @model.collection.each (event)->
+      event.trigger 'unactive'
+    @$el.addClass 'active'
 
     new padule.Views.Schedule
-      collection: @schedules
-
-    options =
-      data:
-        event_id: @model.id
-    @schedules.fetch options
-
-  _isChanged: ->
-    result = false
-    @schedules.each (schedule)->
-      schedule.seeker_schedules.each (seeker_schedule) ->
-        if seeker_schedule.hasChanged('type')
-          result = true
-    result
-
-  _active: ->
-    @parent.$el.find('li').removeClass 'active'
-    @$el.addClass 'active'
+      collection: new padule.Collections.Schedules false, _event: @model

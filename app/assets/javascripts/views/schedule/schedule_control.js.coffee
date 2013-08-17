@@ -1,35 +1,31 @@
 class padule.Views.ScheduleControl extends Backbone.View
-  el: $ '.control-container'
   template: JST['templates/schedule_control']
-
   events:
-    'click #addScheduleButton' : 'addNewSchedule'
+    'click #addScheduleButton' : 'addSchedule'
     'click #confirmScheduleButton' : 'saveSchedule'
 
-  setEvent: (event_) ->
-    @event_ = event_
-    @
+  initialize: ->
+    @event = @collection.event
 
   render: ->
     @$el.html @template
-      event_url: @event_.get "url"
+      event: @event.toJSON()
     @_initDatepicker()
     @_initTimepicker()
+    @
 
-  addNewSchedule: ->
+  addSchedule: ->
     new_schedule = new padule.Models.Schedule
-      event_id: @event_.id
+      event_id: @event.id
       start_time: @_getStartTime()
-      seeker_schedules: @collection.first().createInitial().toJSON()
     @collection.push new_schedule
-    new_schedule.add @event_.id
 
   saveSchedule: ->
     @
 
   _getStartTime: ->
-    date = @$el.find('#scheduleDatepicker').val()
-    time = @$el.find('#scheduleTimepicker').val()
+    date = @$('#scheduleDatepicker').val()
+    time = @$('#scheduleTimepicker').val()
     datetime = date + ' ' + time
     datetime = datetime.replace(/\//g, '-') + ":00"
     datetime

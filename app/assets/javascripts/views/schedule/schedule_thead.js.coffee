@@ -3,10 +3,8 @@ class padule.Views.ScheduleThead extends Backbone.View
 
   initialize: ->
     _.bindAll @
-    @listenTo @collection, 'sync', @render
 
   render: ->
-    view = new padule.Views.ScheduleTr
-      collection: @collection.at(0).seeker_schedules
-      is_header: true
-    @$el.html view.renderAll().el
+    view = new padule.Views.ScheduleTheadTr
+      collection: @collection
+    @$el.html view.render().el

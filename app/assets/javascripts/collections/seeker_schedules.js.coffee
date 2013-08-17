@@ -1,9 +1,13 @@
 class padule.Collections.SeekerSchedules extends Backbone.Collection
   model: padule.Models.SeekerSchedule
   url: '/seeker_schedules'
+  localStorage: new Store "seeker_schedules"
 
-  initialize: (models, options)->
+  initialize: (options)->
     @schedule = options.schedule
+
+  resetType: ->
+    @invoke 'set', {'type', '-1'}, {'silent', 'true'}
 
   findBySeeker: (seeker_schedule)->
     result = []
@@ -12,8 +16,3 @@ class padule.Collections.SeekerSchedules extends Backbone.Collection
           each.seeker.get('name') is seeker_schedule.seeker.get('name') and each.id isnt seeker_schedule.id
       result = result.concat filters
     result
-
-  hasTemp: ->
-    temp = @filter (seeker_schedule)->
-      seeker_schedule.isTemp()
-    temp.length > 0

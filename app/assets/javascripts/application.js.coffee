@@ -54,8 +54,10 @@ window.padule.stringToDateYYYYMMDDHHMM = (stringdate) ->
 
 Backbone.ajaxSync = Backbone.sync
 Backbone.sync = (method, model, options, error)->
-  if options.type is 'POST'
-    console.log method
-    Backbone.localSync method, model, options, error
-  else
-    Backbone.ajaxSync method, model, options, error
+  (Backbone.getSyncMethod model).apply this, [method, model, options, error]
+
+Backbone.getSyncMethod = (model)->
+  if model.localStorage || (model.collection && model.collection.localStorage)
+    return Backbone.localSync;
+
+  return Backbone.ajaxSync;
