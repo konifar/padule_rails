@@ -1,4 +1,4 @@
-<div class="col-8">
+<div class="col-6">
   <div class="schedule-add form-inline">
     <div class="bootstrap-datepicker pull-left">
       <input type="text" id="scheduleDatepicker" class="span2 form-control" placeholder="年月日">
@@ -12,15 +12,10 @@
     </button>
   </div>
 </div>
-<div class="col-4">
-  <button id="confirmScheduleButton" class="btn btn-warning">
-    <i class="glyphicon glyphicon-ok"></i>
-    変更した日程を確定
-  </button>
+<div class="col-6">
+  <blockquote class="pull-right">
+    <p>
+      共有URL : <%= @event.url %>
+    </p>
+  </blockquote>
 </div>
-
-<blockquote class="pull-right">
-  <p>
-    共有URL : <%= @event.url %>
-  </p>
-</blockquote>

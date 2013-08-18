@@ -75,6 +75,18 @@ _.extend(Backbone.LocalStorage.prototype, {
     return this.jsonData(this.localStorage().getItem(this.name+"-"+model.id));
   },
 
+  findByParams: function(options) {
+    result = _(this.findAll()).map(function(item) {
+      for (key in options.data) {
+        if (item[key] !== options.data[key]) {
+          return false;
+        }
+      }
+      return item;
+　  }, this);
+    return _.compact(result);
+  },
+
   // Return the array of all models currently in storage.
   findAll: function() {
     return _(this.records).chain()
@@ -131,14 +143,28 @@ _.extend(Backbone.LocalStorage.prototype, {
 // *localStorage* property, which should be an instance of `Store`.
 // window.Store.sync and Backbone.localSync is deprecated, use Backbone.LocalStorage.sync instead
 Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(method, model, options) {
-  var store = model.localStorage || model.collection.localStorage;
+  if (model.collection) {
+    var store = model.collection.localStorage;
+  } else {
+    var store = model.localStorage;
+  }
+  // modelにコレクションが入ってくる時のために、かならずコレクションに保存するように修正 konishi
+  // var store = model.localStorage || model.collection.localStorage;
 
   var resp, errorMessage, syncDfd = $.Deferred && $.Deferred(); //If $ is having Deferred - use it.
 
   try {
     switch (method) {
       case "read":
-        resp = model.id != undefined ? store.find(model) : store.findAll();
+        if (model.id != undefined) {
+          resp = store.find(model)
+        } else if (options && options.data) {
+          resp = store.findByParams(options);
+        } else {
+          resp = store.findAll();
+        }
+        // パラメータに対応するため修正 konishi
+        // resp = model.id != undefined ? store.find(model) : store.findAll();
         break;
       case "create":
         resp = store.create(model);

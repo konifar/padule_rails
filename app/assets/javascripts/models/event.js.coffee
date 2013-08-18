@@ -4,6 +4,7 @@ class padule.Models.Event extends Backbone.Model
 
   defaults:
     title: ""
+    url: "http://padule.me/schedule"
     text: ""
     enabled: true
 
