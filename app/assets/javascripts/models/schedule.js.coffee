@@ -1,6 +1,6 @@
 class padule.Models.Schedule extends Backbone.Model
   urlRoot: '/schedules'
-  localStorage: new Store "schedule"
+  # localStorage: new Store "schedule"
 
   initialize: ->
     if @has 'seeker_schedules'

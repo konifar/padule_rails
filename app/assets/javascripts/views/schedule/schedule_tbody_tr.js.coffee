@@ -4,7 +4,7 @@ class padule.Views.ScheduleTbodyTr extends Backbone.View
   initialize: ->
     _.bindAll @
     @seeker_schedules = @model.seeker_schedules
-    @listenTo @seeker_schedules, 'changeEditable', @_changeDisabled
+    @listenTo @seeker_schedules, 'changeEditable', @changeDisabled
 
   renderOne: (seeker_schedule)->
     view = new padule.Views.ScheduleTd
@@ -14,6 +14,7 @@ class padule.Views.ScheduleTbodyTr extends Backbone.View
   render: ->
     @renderTh()
     @seeker_schedules.each @renderOne
+    @changeDisabled()
     @
 
   renderTh: ->
@@ -21,9 +22,11 @@ class padule.Views.ScheduleTbodyTr extends Backbone.View
       model: @model
     @$el.append view.render().el
 
-  _changeDisabled: (editable)->
-    if editable
-      @$el.removeClass 'disabled'
-    else
+  changeDisabled: ->
+    confirms = @seeker_schedules.filter (seeker_schedule)->
+      seeker_schedule.types.confirmed is seeker_schedule.get 'type'
+    if confirms?.length > 0
       @$el.addClass 'disabled'
+    else
+      @$el.removeClass 'disabled'
 

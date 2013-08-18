@@ -1,6 +1,6 @@
 class padule.Models.Event extends Backbone.Model
   urlRoot: '/events'
-  localStorage: new Store "event"
+  # localStorage: new Store "event"
 
   defaults:
     title: ""
