@@ -3,18 +3,15 @@ class padule.Views.ScheduleList extends Backbone.View
 
   initialize: (options)->
     _.bindAll @
-    @listenTo @collection, 'add', @renderOne
-
-    options =
-      data:
-        event_id: options.event_id
-    @collection.fetch options
+    @listenTo @collection, 'sync', @render
+    @seeker = options.seeker
 
   renderOne: (schedule)->
     view = new padule.Views.ScheduleListElement
       model: schedule
+      seeker: @seeker
     @$el.append view.render().el
 
-  renderAll: ->
-    @collection.each (schedule)->
-      @renderOne schedule
+  render: ->
+    @collection.each @renderOne
+    @

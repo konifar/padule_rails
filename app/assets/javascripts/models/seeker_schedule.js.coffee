@@ -2,27 +2,30 @@ class padule.Models.SeekerSchedule extends Backbone.Model
   urlRoot: '/seeker_schedules'
   localStorage: new Store "seeker_schedule"
 
+  defaults:
+    type: -1
+
   types:
     default: -1
     ng: 0
     ok: 1
     confirmed: 2
 
-  initialize: ->
+  initialize: (models, options={})->
     @seeker = new padule.Models.Seeker @get 'seeker', {seeker_schedule: @}
-    @schedule = @collection.schedule
+    @schedule = @collection?.schedule
 
   isConfirmed: ->
-    @get 'type' is @types.confirmed
+    @types.confirmed is @get 'type'
 
   isOK: ->
-    @get 'type' is @types.ok
+    @types.ok is @get 'type'
 
   isNG: ->
-    @get 'type' is @types.ng
+    @types.ng is @get 'type'
 
   isDefault: ->
-    @get 'type' is @types.default
+    @types.default is @get 'type'
 
   changeType: ->
     if @isOK()
