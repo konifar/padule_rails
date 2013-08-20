@@ -3,19 +3,19 @@
 #= require libs/bootstrap-datepicker
 #= require libs/bootstrap-timepicker.min
 #= require libs/json2
-#= require libs/jquery.mockjax
 #= require libs/dateformat
 #= require libs/underscore
 #= require libs/backbone
 #= require libs/backbone.localStorage
 #= require padule
-#= require mocks/mock_utils
+# require libs/jquery.mockjax
+# require mocks/mock_utils
+# require_tree ./mocks
 #= require_tree ./templates
-#= require_tree ./mocks
 #= require_tree ./models
 #= require_tree ./collections
 #= require_tree ./views
-# = require_tree ./routers
+#= require_tree ./routers
 
 window.padule.initialize = ->
   new padule.Routers.Schedules
@@ -57,6 +57,9 @@ Backbone.sync = (method, model, options, error)->
   (Backbone.getSyncMethod model).apply this, [method, model, options, error]
 
 Backbone.getSyncMethod = (model)->
+  unless padule.use_localstorage
+    return Backbone.ajaxSync;
+
   if model.localStorage || (model.collection && model.collection.localStorage)
     return Backbone.localSync;
 

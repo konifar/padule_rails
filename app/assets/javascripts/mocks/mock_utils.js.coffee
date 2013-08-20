@@ -1,11 +1,11 @@
 window.MockUtils ||= {}
 MockUtils.getEvent = (id)->
   {
-    "id": id,
+    "id": "#{id}",
     "title": "営業職#{id}次面接",
-    "url": "/events/show/#{id}",
-    "text": "営業職#{id}次面接です。",
-    "enabled": true
+    "url": "/locks/add/xxxxxxxxxxxxxxxxxxx",
+    "text": "営業職id次面接です。",
+    "enabled": null
   }
 
 MockUtils.getSeeker = (id, event_id)->

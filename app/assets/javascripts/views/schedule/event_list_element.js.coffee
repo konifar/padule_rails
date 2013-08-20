@@ -15,13 +15,13 @@ class padule.Views.EventListElement extends Backbone.View
 
   updateOnEnter: (e)->
     if e.keyCode is 13
-      @_close()
+      @close()
 
   editEvent: ->
     @$el.addClass 'editing'
     @input.focus()
 
-  _close: ->
+  close: ->
     value = @input.val()
     if value
       @model.save {title: value}
