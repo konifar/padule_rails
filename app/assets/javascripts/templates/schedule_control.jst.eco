@@ -1,4 +1,4 @@
-<div class="col-6">
+<div class="pull-right">
   <div class="schedule-add form-inline">
     <div class="bootstrap-datepicker pull-left">
       <input type="text" id="scheduleDatepicker" class="span2 form-control" placeholder="年月日">
@@ -12,10 +12,9 @@
     </button>
   </div>
 </div>
-<div class="col-6">
-  <blockquote class="pull-right">
-    <p>
-      共有URL : <%= @event.url %>
-    </p>
-  </blockquote>
+<div class="event-contents">
+  <h3><%= @event.title %></h3>
+  <p>
+    共有URL : <%= @event.url %>
+  </p>
 </div>

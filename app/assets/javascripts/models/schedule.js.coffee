@@ -15,3 +15,8 @@ class padule.Models.Schedule extends Backbone.Model
       @seeker_schedules = @collection.first().seeker_schedules.clone().resetType()
     else
       @seeker_schedules = new padule.Collections.SeekerSchedules false, schedule: @
+
+  saveByEvent: ->
+    options =
+      url: @url() + "?event_id=" + @get 'event_id'
+    @save null, options

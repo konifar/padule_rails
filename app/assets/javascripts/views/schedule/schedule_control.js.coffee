@@ -18,7 +18,7 @@ class padule.Views.ScheduleControl extends Backbone.View
       event_id: @event.id
       start_time: @_getStartTime()
     @collection.push new_schedule
-    new_schedule.save()
+    new_schedule.saveByEvent()
 
   _getStartTime: ->
     date = @$('#scheduleDatepicker').val()

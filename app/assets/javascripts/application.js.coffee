@@ -8,9 +8,9 @@
 #= require libs/backbone
 #= require libs/backbone.localStorage
 #= require padule
-# require libs/jquery.mockjax
-# require mocks/mock_utils
-# require_tree ./mocks
+#= require libs/jquery.mockjax
+#= require mocks/mock_utils
+#= require_tree ./mocks
 #= require_tree ./templates
 #= require_tree ./models
 #= require_tree ./collections
@@ -46,8 +46,9 @@ window.padule.dateformatyyyyMMddWhhmm = (string_date) ->
 
   return y + "/" + m + "/" + d + "(" + wNames[w] + ") " + h + ":" + M;
 
-window.padule.stringToDateYYYYMMDDHHMM = (stringdate) ->
-  dateFormat = new DateFormat("yyyy/MM/dd HH:mm");
+window.padule.stringToDateYYYYMMDDHHMM = (stringdate, format) ->
+  format ||= "yyyy/MM/dd HH:mm"
+  dateFormat = new DateFormat(format);
   date = dateFormat.parse(stringdate);
   date
 

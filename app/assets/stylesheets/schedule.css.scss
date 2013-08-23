@@ -1,8 +1,22 @@
 @import "padule";
 
+.schedule-container{
+  padding-left: $margin1;
+  padding-right: $margin1;
+  height: 100%;
+  .row-fluid {
+    height: 100%;
+  }
+}
+
 #eventSidebar {
-  $font-color: #716B7A;
-  $orange: #ff8600;
+  position: fixed;
+  top: $nav-height;
+  bottom: 0;
+  left: $margin1;
+  width: $sidebar-width;
+  background-color: $gray2;
+  @include line-right;
 
   #addEventButtonContainer {
     padding: 10px;
@@ -11,20 +25,13 @@
     }
   }
 
-  .schedule-sidenav {
-    background-color: #EEE;
-
+  #eventList {
     li {
       @include line-bottom;
-      a {
-        @include line-right;
-      }
       &.active a {
         font-weight: bold;
-        background-color: #FEFEFE;
-        border-left: 6px solid $orange;
-        border-right: none;
-        outline: none;
+        @include gradient-top-lighten($gray1);
+        border-left: 6px solid $orange1;
         cursor: default;
       }
       .edit {
@@ -32,7 +39,6 @@
         margin: 6px;
         width: 80%;
       }
-
       &.editing {
         .edit {
           display: block;
@@ -44,54 +50,84 @@
     }
 
     a {
-      color: $font-color;
+      @include transition-duration(0.1s);
       display: block;
       padding: 10px;
+      color: $navy1;
       @include ts-fff;
       &:hover {
-        background-color: #DEDEDE;
+        background-color: $gray4;
       }
     }
+
   }
 }
 
-$detail-padding: 20px;
+body > #scheduleContents {
+  height: auto;
+}
 
-.detail-container {
-  padding: $detail-padding;
-  min-height: 300px;
-  background-color: #FEFEFE;
-  @include box-emboss;
+#scheduleContents {
+  position: relative;
+  margin-left: $sidebar-width;
+  padding: $margin2;
+  height: 100%;
+  min-height: 100%;
+  background-color: $gray2;
 
-  tr.disabled, tr.disabled:hover {
-    th, td {
-      background-color: #EEEEEE;
+  .schedule-table-container {
+    font-size: $font-size1;
+    background-color: $white1;
+    @include box-emboss;
+    table {
+      margin-bottom: $margin2;
+    }
+    .no-event {
+      padding: $margin1;
+      font-size: $font-size2;
     }
   }
 
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
   tbody th {
-    max-width: 40px;
+    max-width: 50px;
   }
 
   .schedule-btn {
+    @include transition-duration(0.25s);
     min-width: 50px;
     &.disabled.btn-default {
       @include opacity(.2);
     }
   }
 
+  .button-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: $margin1;
+    @include line-top;
+    @include gradient-top-lighten($gray2);
+    text-align: center;
+  }
+
 }
 
 .control-container {
-  padding-top: 20px;
-  @include box-emboss;
+  margin-bottom: $margin2;
   button, a {
     width: 100%;
   }
-  blockquote {
-    margin-top: 6px;
-    margin-right: 16px;
-    margin-bottom: 10px;
+  .event-contents {
+    h3 {
+      margin-top: 0;
+      font-weight: bold;
+    }
   }
 
   .schedule-add > div {

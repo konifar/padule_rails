@@ -10,6 +10,7 @@ class padule.Models.SeekerSchedule extends Backbone.Model
     ng: 0
     ok: 1
     confirmed: 2
+    temp: 3
 
   initialize: (models, options={})->
     @seeker = new padule.Models.Seeker @get 'seeker', {seeker_schedule: @}
@@ -26,6 +27,9 @@ class padule.Models.SeekerSchedule extends Backbone.Model
 
   isDefault: ->
     @types.default is @get 'type'
+
+  isTemp: ->
+    @types.temp is @get 'type'
 
   changeType: ->
     if @isOK()

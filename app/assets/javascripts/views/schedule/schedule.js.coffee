@@ -1,5 +1,5 @@
 class padule.Views.Schedule extends Backbone.View
-  el: $ '.detail-container'
+  el: $ '#scheduleContents'
 
   initialize: ->
     _.bindAll @
