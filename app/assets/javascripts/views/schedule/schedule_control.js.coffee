@@ -2,16 +2,27 @@ class padule.Views.ScheduleControl extends Backbone.View
   template: JST['templates/schedule_control']
   events:
     'click #addScheduleButton' : 'addSchedule'
+    'change #scheduleDatepicker' : 'toggleAddButton'
+    'change #scheduleTimepicker' : 'toggleAddButton'
 
   initialize: ->
+    _.bindAll @
     @event = @collection.event
 
   render: ->
     @$el.html @template
       event: @event.toJSON()
+    @datepicker = @$('#scheduleDatepicker')
+    @timepicker = @$('#scheduleTimepicker')
     @_initDatepicker()
     @_initTimepicker()
     @
+
+  toggleAddButton: =>
+    if @_validateDatetime() and @datepicker.val() and @timepicker.val()
+      @$('#addScheduleButton').removeClass('disabled')
+    else
+      @$('#addScheduleButton').addClass('disabled')
 
   addSchedule: ->
     new_schedule = new padule.Models.Schedule
@@ -20,19 +31,30 @@ class padule.Views.ScheduleControl extends Backbone.View
     @collection.push new_schedule
     new_schedule.saveByEvent()
 
+  _validateDatetime: ->
+    date = @datepicker.val()
+    unless padule.checkDateFormat date
+      padule.info_area ||= new padule.Views.InfoArea
+      padule.info_area.render
+        text: '日づけのフォーマットが正しく入力してください。'
+        class_name: 'label-danger'
+      return false
+    else
+      return true
+
   _getStartTime: ->
-    date = @$('#scheduleDatepicker').val()
-    time = @$('#scheduleTimepicker').val()
+    date = @datepicker.val()
+    time = @timepicker.val()
     datetime = date + ' ' + time
     datetime = datetime.replace(/\//g, '-') + ":00"
     datetime
 
   _initDatepicker: ->
-    @$("#scheduleDatepicker").datepicker
+    @datepicker.datepicker
       format: 'yyyy/mm/dd'
 
   _initTimepicker: ->
-    @$('#scheduleTimepicker').timepicker
+    @timepicker.timepicker
       minuteStep: 10
       showInputs: false
       showSeconds: false

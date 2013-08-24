@@ -1,6 +1,9 @@
 .navbar.navbar-inverse.navbar-fixed-top.padule-nav
   .container-fluid
     = link_to 'Padule', '../', :class => "navbar-brand"
+    .info-area.pull-left
+      %span.label
+
     %ul#userInfo.nav.navbar-nav.pull-right
       %li.dropdown
         %a{:href=>"#", :data=>{:toggle=>'dropdown'}, :class=> 'pull-right'}

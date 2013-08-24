@@ -77,6 +77,15 @@ html {
     color: $white1;
     padding: 10px 15px;
   }
+  .info-area {
+    opacity: 0;
+    @include transition-duration(0.50s);
+    font-size: $font-size3;
+    margin-top: 6px;
+    &.show {
+      opacity: 1;
+    }
+  }
 }
 
 .fill {

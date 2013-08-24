@@ -4,8 +4,9 @@ class padule.Views.Schedule extends Backbone.View
   initialize: ->
     _.bindAll @
 
-    @tableContainer = @$('.schedule-table-container')
-    @controlContainer = @$('.control-container')
+    @tableContainer = @$ '.schedule-table-container'
+    @controlContainer = @$ '.control-container'
+    @buttonContainer = @$ '.button-container'
 
     @listenTo @collection, 'sync', @_clear
     @listenTo @collection, 'sync', @render
@@ -23,3 +24,5 @@ class padule.Views.Schedule extends Backbone.View
     @control = new padule.Views.ScheduleControl
       collection: @collection
     @controlContainer.html @control.render().el
+
+    @buttonContainer.show()

@@ -38,12 +38,15 @@ class padule.Views.EventListElement extends Backbone.View
 
   deleteEvent: (e)->
     e.preventDefault()
-    modal = new padule.Views.AlertModal
+    padule.modal ||= new padule.Views.AlertModal
+    padule.modal.render
       title: 'イベントを削除'
       contents: "『#{@model.get 'title'}』を削除してよろしいですか？"
       callback: ->
         console.log "hogehoge"
-    modal.show()
+        padule.info_area.render
+          text: 'イベントを削除しました'
+          class_name: 'label-info'
 
   showSchedule: (e)->
     e.preventDefault()

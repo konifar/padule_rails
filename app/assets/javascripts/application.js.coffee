@@ -52,6 +52,25 @@ window.padule.stringToDateYYYYMMDDHHMM = (stringdate, format) ->
   date = dateFormat.parse(stringdate);
   date
 
+window.padule.checkDateFormat = (stringdate) ->
+  # 正規表現による書式チェック
+  unless stringdate.match(/^\d{4}\/\d{2}\/\d{2}$/)
+    return false
+  # 月,日の妥当性チェック
+  year = stringdate.substr(0, 4) - 0
+  month = stringdate.substr(5, 2) - 1
+  day = stringdate.substr(8, 2) - 0
+  if month >= 0 and month <= 11 and day >= 1 and day <= 31
+    date = new Date(year, month, day);
+    if isNaN(date)
+      return false
+    else if date.getFullYear() is year and date.getMonth() is month and date.getDate() is day
+      return true
+    else
+      return false
+  else
+    return false
+
 
 Backbone.ajaxSync = Backbone.sync
 Backbone.sync = (method, model, options, error)->
