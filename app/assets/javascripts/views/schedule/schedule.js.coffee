@@ -10,11 +10,14 @@ class padule.Views.Schedule extends Backbone.View
 
     @listenTo @collection, 'sync', @_clear
     @listenTo @collection, 'sync', @render
+
+    @clear()
+    @startLoading()
     @collection.fetchByEvent()
 
-  _clear: ->
+  clear: ->
     @tableContainer.empty()
-    @undelegateEvents()
+    @controlContainer.empty()
 
   render: ->
     @table = new padule.Views.ScheduleTable
@@ -26,3 +29,11 @@ class padule.Views.Schedule extends Backbone.View
     @controlContainer.html @control.render().el
 
     @buttonContainer.show()
+
+    @endLoading()
+
+  startLoading: ->
+    @$el.addClass 'loading'
+
+  endLoading: ->
+    @$el.removeClass 'loading'

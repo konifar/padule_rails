@@ -223,6 +223,14 @@ body > #scheduleContents {
   }
 }
 
+.loading {
+  background-image: url('loading.gif') !important;
+  background-repeat: no-repeat !important;
+  background-position: center 50px;
+  background-size: 100px;
+  height: 100%;
+}
+
 #alertModal {
   .modal-header {
     font-size: $font-size3;
