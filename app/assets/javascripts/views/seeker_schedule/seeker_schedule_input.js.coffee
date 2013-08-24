@@ -15,7 +15,7 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
 
     @listenTo @event, 'sync', @render_event_info
 
-    @event_container = @$('.event_container')
+    @event_container = @$('.event-container')
     @seeker_container = @$('.seeker-container')
     @control_container = @$('.control-container')
 
@@ -27,8 +27,8 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
     @event.fetch()
 
   render_event_info: ->
-    @event_container.find('legend').html @event.get 'title'
-    @event_container.find('.text').html @event.get 'text'
+    @event_container.find('h4').html @event.get('title')
+    @event_container.find('.text').html @event.get('text')
 
   sendSeekerSchedule: ->
     @seeker.save()

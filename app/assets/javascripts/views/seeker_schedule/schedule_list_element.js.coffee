@@ -1,5 +1,6 @@
 class padule.Views.ScheduleListElement extends Backbone.View
   tagName: 'li'
+  className: 'list-group-item'
   template: JST['templates/seeker_schedule_status']
   events:
     'click .seeker-schedule-btn' : 'changeType'
@@ -27,6 +28,8 @@ class padule.Views.ScheduleListElement extends Backbone.View
     if @seeker_schedule.isOK()
       btn_class_name: 'btn-success'
       icon_class_name: 'glyphicon-ok'
+      text: '◯'
     else
       btn_class_name: 'btn-default'
       icon_class_name: 'glyphicon-remove'
+      text: '×'

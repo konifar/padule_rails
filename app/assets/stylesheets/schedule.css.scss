@@ -1,5 +1,50 @@
 @import "padule";
 
+.seeker-schedule-container{
+  margin-left: $margin1;
+  margin-right: $margin1;
+  padding: $margin1;
+  background-color: $gray1;
+  height: 100%;
+  min-height: 100%;
+  .event-container {
+    @include line-bottom;
+    margin-bottom: $margin2;
+  }
+  .event-title {
+    font-weight: bold;
+  }
+  .seeker-container {
+    margin-bottom: $margin2 * 2;
+  }
+  #seeker-schedule-edit {
+    .schedule-time {
+      height: 30px;
+      display: block;
+      padding-top: 8px;
+    }
+    .seeker-schedule-btn {
+      float: right;
+    }
+  }
+  .edit-container > p {
+    font-weight: bold;
+  }
+  .important {
+    color: $red1;
+  }
+  .control-container {
+    margin: -$margin1;
+    padding: $margin1;
+    @include line-top;
+    @include gradient-top-lighten($gray2);
+  }
+}
+body > .seeker-schedule-container {
+  height: auto;
+  min-height: auto;
+}
+
 .schedule-container{
   padding-left: $margin1;
   padding-right: $margin1;
