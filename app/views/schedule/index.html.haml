@@ -32,7 +32,7 @@
         %button#confirmButton.btn.btn-lg.btn-success{:type => 'button'}
           編集した日時を確定
 
-#alertModal.modal
+#alertModal.modal.fade
   .modal-dialog
     .modal-content
       .modal-header
@@ -42,7 +42,7 @@
         %span.modal-title
       .modal-body
       .modal-footer
-        %button#alertOK.btn.btn-primary{:type => 'button'}
+        %button#alertOK.btn.btn-success{:type => 'button'}
           はい
         %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}
           いいえ

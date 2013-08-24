@@ -3,6 +3,7 @@ class padule.Views.EventListElement extends Backbone.View
   template: JST['templates/event']
 
   events:
+    'click .delete-event-button' : 'deleteEvent'
     'click a' : 'showSchedule'
     'dblclick a' : 'editEvent'
     'keypress input[type=text]': 'updateOnEnter'
@@ -34,6 +35,15 @@ class padule.Views.EventListElement extends Backbone.View
     if @model.isNew()
       @$el.addClass('editing');
     @
+
+  deleteEvent: (e)->
+    e.preventDefault()
+    modal = new padule.Views.AlertModal
+      title: 'イベントを削除'
+      contents: "『#{@model.get 'title'}』を削除してよろしいですか？"
+      callback: ->
+        console.log "hogehoge"
+    modal.show()
 
   showSchedule: (e)->
     e.preventDefault()

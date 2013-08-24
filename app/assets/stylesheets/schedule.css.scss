@@ -72,12 +72,16 @@ body > .seeker-schedule-container {
 
   #eventList {
     li {
+      @include transition-duration(0.1s);
       @include line-bottom;
-      &.active a {
-        font-weight: bold;
+      &.active {
         @include gradient-top-lighten($gray1);
-        border-left: 6px solid $orange1;
-        cursor: default;
+        a {
+          @include gradient-top-lighten($gray1);
+          font-weight: bold;
+          border-left: 6px solid $orange1;
+          cursor: default;
+        }
       }
       .edit {
         display: none;
@@ -92,11 +96,18 @@ body > .seeker-schedule-container {
           display: none;
         }
       }
+      &:hover {
+        background-color: $gray4;
+        .close {
+          display: block;
+        }
+      }
     }
 
     a {
       @include transition-duration(0.1s);
       display: block;
+      width: 170px;
       padding: 10px;
       color: $navy1;
       @include ts-fff;
@@ -104,7 +115,12 @@ body > .seeker-schedule-container {
         background-color: $gray4;
       }
     }
-
+    .close {
+      padding-top: 10px;
+      padding-right: 10px;
+      font-size: 18px;
+      display: none;
+    }
   }
 }
 
@@ -139,7 +155,23 @@ body > #scheduleContents {
   }
 
   tbody th {
-    max-width: 50px;
+    max-width: 200px;
+    width: 200px;
+    .schedule-delete-button {
+      width: 20px;
+      font-size: 18px;
+      display: none;
+    }
+    .schedule-time {
+      width: 150px;
+      max-width: 150px;
+    }
+  }
+
+  tr:hover {
+    .schedule-delete-button {
+      display: block;
+    }
   }
 
   .schedule-btn {
@@ -190,3 +222,8 @@ body > #scheduleContents {
   }
 }
 
+#alertModal {
+  .modal-header {
+    font-size: $font-size3;
+  }
+}
