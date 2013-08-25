@@ -4714,6 +4714,9 @@ return Backbone.LocalStorage;
 
     Schedule.prototype.saveByEvent = function() {
       var options;
+      this.seeker_schedules.each(function(seeker_schedule) {
+        return seeker_schedule.save();
+      });
       options = {
         url: this.url() + "?event_id=" + this.get('event_id')
       };
@@ -4747,6 +4750,10 @@ return Backbone.LocalStorage;
         options = {};
       }
       return this.seeker_schedule = options.seeker_schedule;
+    };
+
+    Seeker.prototype.hasNecessaryVal = function() {
+      return this.get('name') !== '' && this.get('name') !== void 0 && this.get('mail') !== '' && this.get('mail') !== void 0;
     };
 
     return Seeker;
@@ -4846,7 +4853,7 @@ return Backbone.LocalStorage;
 
     SeekerSchedule.prototype.changeTypeBySeeker = function() {
       if (this.isOK()) {
-        return this.set('type', this.types["default"]);
+        return this.set('type', this.types.ng);
       } else {
         return this.set('type', this.types.ok);
       }
@@ -5986,7 +5993,9 @@ return Backbone.LocalStorage;
 
     ScheduleListElement.prototype.initialize = function(options) {
       _.bindAll(this);
-      this.seeker_schedule = new padule.Models.SeekerSchedule(false, {
+      this.seeker_schedule = new padule.Models.SeekerSchedule({
+        'type': 0
+      }, {
         schedule: this.model
       });
       this.seeker_schedule.seeker = options.seeker;
@@ -6045,10 +6054,10 @@ return Backbone.LocalStorage;
     SeekerScheduleInput.prototype.el = $('.seeker-schedule-container');
 
     SeekerScheduleInput.prototype.events = {
-      'change input#inputName': 'setName',
-      'change input#inputEmail': 'setMail',
-      'change input#inputEmail2': 'setMail',
-      'change textarea#inputComment': 'setText',
+      'keyup input#inputName': 'setName',
+      'keyup input#inputEmail': 'setMail',
+      'keyup input#inputEmail2': 'setMail',
+      'keyup textarea#inputComment': 'setText',
       'click #sendSeekerSchedule': 'sendSeekerSchedule'
     };
 
@@ -6060,6 +6069,7 @@ return Backbone.LocalStorage;
       this.event = this.collection.event;
       this.seeker = options.seeker;
       this.listenTo(this.event, 'sync', this.render_event_info);
+      this.listenTo(this.seeker, 'change', this.changeSendButtonEnable);
       this.event_container = this.$('.event-container');
       this.seeker_container = this.$('.seeker-container');
       this.control_container = this.$('.control-container');
@@ -6067,6 +6077,7 @@ return Backbone.LocalStorage;
         collection: this.collection,
         seeker: this.seeker
       });
+      this.modal = new padule.Views.AlertModal;
       this.collection.fetchByEvent();
       return this.event.fetch();
     };
@@ -6077,10 +6088,36 @@ return Backbone.LocalStorage;
     };
 
     SeekerScheduleInput.prototype.sendSeekerSchedule = function() {
-      this.seeker.save();
-      return this.collection.each(function(schedule) {
-        return schedule.seeker_schedules.last().save();
+      var _this = this;
+      return this.modal.render({
+        title: 'スケジュールを送信します',
+        contents: 'よろしいですか？',
+        callback: function() {
+          return _this.seeker.save({
+            success: function() {
+              _this.collection.each(function(schedule) {
+                return schedule.seeker_schedules.last().save();
+              });
+              return _this.afterSending();
+            }
+          });
+        }
       });
+    };
+
+    SeekerScheduleInput.prototype.afterSending = function() {
+      this.$('.necessary').attr('disabled', true);
+      this.$('#inputComment').attr('disabled', true);
+      this.$('.seeker-schedule-btn').addClass('disabled');
+      return this.control_container.find('#sendSeekerSchedule').removeClass('btn-success').addClass('btn-danger').addClass('disabled').html('送信しました');
+    };
+
+    SeekerScheduleInput.prototype.changeSendButtonEnable = function() {
+      if (this.seeker.hasNecessaryVal() && this.checkMail()) {
+        return this.control_container.find('#sendSeekerSchedule').removeClass('disabled');
+      } else {
+        return this.control_container.find('#sendSeekerSchedule').addClass('disabled');
+      }
     };
 
     SeekerScheduleInput.prototype.setName = function(e) {
@@ -6088,7 +6125,21 @@ return Backbone.LocalStorage;
     };
 
     SeekerScheduleInput.prototype.setMail = function(e) {
-      return this.seeker.set('mail', $(e.currentTarget).val());
+      this.seeker.set('mail', $(e.currentTarget).val());
+      return this.checkMail();
+    };
+
+    SeekerScheduleInput.prototype.checkMail = function() {
+      if (this.$('#inputEmail').val() === this.$('#inputEmail2').val()) {
+        this.$('.input-email2 > .important').html('(必須)');
+        this.$('.input-email2').removeClass('has-error');
+        this.seeker.set('mail', this.$('#inputEmail').val());
+        return true;
+      } else {
+        this.$('.input-email2 > .important').html('メールアドレスが一致しません');
+        this.$('.input-email2').addClass('has-error');
+        return false;
+      }
     };
 
     SeekerScheduleInput.prototype.setText = function(e) {

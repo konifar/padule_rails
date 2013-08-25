@@ -16,9 +16,9 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
     @listenTo @event, 'sync', @render_event_info
     @listenTo @seeker, 'change', @changeSendButtonEnable
 
-    @event_container = @$('.event-container')
-    @seeker_container = @$('.seeker-container')
-    @control_container = @$('.control-container')
+    @event_container = @$ '.event-container'
+    @seeker_container = @$ '.seeker-container'
+    @control_container = @$ '.control-container'
 
     new padule.Views.ScheduleList
       collection: @collection
@@ -30,8 +30,8 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
     @event.fetch()
 
   render_event_info: ->
-    @event_container.find('h4').html @event.get('title')
-    @event_container.find('.text').html @event.get('text')
+    @event_container.find('h4').html @event.get 'title'
+    @event_container.find('.text').html @event.get 'text'
 
   sendSeekerSchedule: ->
     @modal.render
