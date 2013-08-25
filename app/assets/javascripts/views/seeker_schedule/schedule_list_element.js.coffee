@@ -7,7 +7,7 @@ class padule.Views.ScheduleListElement extends Backbone.View
 
   initialize: (options)->
     _.bindAll @
-    @seeker_schedule = new padule.Models.SeekerSchedule false, {schedule: @model}
+    @seeker_schedule = new padule.Models.SeekerSchedule {'type': 0}, {schedule: @model}
     @seeker_schedule.seeker = options.seeker
     @model.seeker_schedules.push @seeker_schedule
 

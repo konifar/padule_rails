@@ -57,6 +57,6 @@ class padule.Models.SeekerSchedule extends Backbone.Model
 
   changeTypeBySeeker: ->
     if @isOK()
-      @set 'type', @types.default
+      @set 'type', @types.ng
     else
       @set 'type', @types.ok

@@ -2,10 +2,10 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
   el: $ '.seeker-schedule-container'
 
   events:
-    'change input#inputName' : 'setName'
-    'change input#inputEmail' : 'setMail'
-    'change input#inputEmail2' : 'setMail'
-    'change textarea#inputComment' : 'setText'
+    'keyup input#inputName' : 'setName'
+    'keyup input#inputEmail' : 'setMail'
+    'keyup input#inputEmail2' : 'setMail'
+    'keyup textarea#inputComment' : 'setText'
     'click #sendSeekerSchedule' : 'sendSeekerSchedule'
 
   initialize: (options={})->
@@ -14,6 +14,7 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
     @seeker = options.seeker
 
     @listenTo @event, 'sync', @render_event_info
+    @listenTo @seeker, 'change', @changeSendButtonEnable
 
     @event_container = @$('.event-container')
     @seeker_container = @$('.seeker-container')
@@ -23,6 +24,8 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
       collection: @collection
       seeker: @seeker
 
+    @modal = new padule.Views.AlertModal
+
     @collection.fetchByEvent()
     @event.fetch()
 
@@ -31,15 +34,46 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
     @event_container.find('.text').html @event.get('text')
 
   sendSeekerSchedule: ->
-    @seeker.save()
-    @collection.each (schedule)->
-      schedule.seeker_schedules.last().save()
+    @modal.render
+      title: 'スケジュールを送信します'
+      contents: 'よろしいですか？'
+      callback: =>
+        @seeker.save
+          success: =>
+            @collection.each (schedule)->
+              schedule.seeker_schedules.last().save()
+            @afterSending()
+
+  afterSending: ->
+    @$('.necessary').attr 'disabled', true
+    @$('#inputComment').attr 'disabled', true
+    @$('.seeker-schedule-btn').addClass 'disabled'
+
+    @control_container.find('#sendSeekerSchedule').removeClass('btn-success').addClass('btn-danger').addClass('disabled').html('送信しました')
+
+  changeSendButtonEnable: ->
+    if @seeker.hasNecessaryVal() and @checkMail()
+      @control_container.find('#sendSeekerSchedule').removeClass 'disabled'
+    else
+      @control_container.find('#sendSeekerSchedule').addClass 'disabled'
 
   setName: (e)->
     @seeker.set 'name', $(e.currentTarget).val()
 
   setMail: (e)->
     @seeker.set 'mail', $(e.currentTarget).val()
+    @checkMail()
+
+  checkMail: ->
+    if @$('#inputEmail').val() is @$('#inputEmail2').val()
+      @$('.input-email2 > .important').html '(必須)'
+      @$('.input-email2').removeClass 'has-error'
+      @seeker.set 'mail', @$('#inputEmail').val()
+      return true
+    else
+      @$('.input-email2 > .important').html 'メールアドレスが一致しません'
+      @$('.input-email2').addClass 'has-error'
+      return false
 
   setText: (e)->
     @seeker.set 'text', $(e.currentTarget).val()
