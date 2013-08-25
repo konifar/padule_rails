@@ -21,7 +21,8 @@ class padule.Views.ScheduleTbodyTh extends Backbone.View
       contents: "『#{@start_time}』の日程を削除してよろしいですか？"
       callback: =>
         @model.destroy
-          success: ->
+          success: =>
             padule.info_area.render
               text: 'スケジュールを削除しました'
               class_name: 'label-info'
+            @remove()

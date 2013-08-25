@@ -47,6 +47,7 @@ class padule.Views.EventListElement extends Backbone.View
             padule.info_area.render
               text: 'イベントを削除しました'
               class_name: 'label-info'
+            @remove()
 
   showSchedule: (e)->
     e.preventDefault()
