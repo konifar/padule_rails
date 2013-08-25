@@ -177,7 +177,7 @@ body > #scheduleContents {
   .schedule-btn {
     @include transition-duration(0.25s);
     min-width: 50px;
-    &.disabled.btn-default {
+    &.disabled {
       @include opacity(.2);
     }
   }

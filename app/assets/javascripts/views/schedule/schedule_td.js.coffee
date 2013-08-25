@@ -7,7 +7,7 @@ class padule.Views.ScheduleTd extends Backbone.View
   initialize: ->
     _.bindAll @
     @listenTo @model, 'change:type', @render
-    @listenTo @model, 'changeEditable', @changeDisabled
+    @listenTo @model, 'afterChangeEditable', @changeDisabled
 
   render: (editable)->
     @$el.html @template
@@ -17,8 +17,8 @@ class padule.Views.ScheduleTd extends Backbone.View
     @model.changeEditable()
     @
 
-  changeDisabled: (editable)->
-    if editable and @model.editable()
+  changeDisabled: ->
+    if @model.editable
       @$('.schedule-btn').removeClass 'disabled'
     else
       @$('.schedule-btn').removeClass('disabled').addClass('disabled')

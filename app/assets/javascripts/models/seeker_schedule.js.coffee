@@ -15,6 +15,8 @@ class padule.Models.SeekerSchedule extends Backbone.Model
   initialize: (models, options={})->
     @seeker = new padule.Models.Seeker @get 'seeker', {seeker_schedule: @}
     @schedule = @collection?.schedule
+    @changeEditable()
+    @listenTo @, 'change:type', @changeEditable
 
   isConfirmed: ->
     @types.confirmed is @get 'type'
@@ -32,20 +34,37 @@ class padule.Models.SeekerSchedule extends Backbone.Model
     @types.temp is @get 'type'
 
   changeType: ->
-    if @isOK()
-      @set 'type', @types.confirmed
-    else if @isConfirmed()
+    if @isOK() or @isConfirmed()
+      @set 'type', @types.temp
+    else if @isTemp()
       @set 'type', @types.ok
 
-    @changeEditable()
+    editable = !@isTemp() and !@isConfirmed()
+    @collection.changeEditable editable
+    @changeEditableBySeeker false
 
-  changeEditable: ->
-    @collection.trigger 'changeEditable'
-    _.each @collection.findBySeeker(@), (seeker_schedule)=>
-      seeker_schedule.trigger 'changeEditable', (@types.confirmed isnt @get 'type')
+  changeEditable: (editable)->
+    if @isConfirmed() or @isTemp()
+      @editable = true
+    else if editable is undefined
+      @editable = @isOK()
+    else
+      @editable = editable and !@isNG()
+    @trigger 'afterChangeEditable'
 
-  editable: ->
-    @types.ng isnt @get('type')
+  changeEditableBySeeker: (initial)->
+    has_confirmed = false
+    seeker_schedules = @collection.findBySeeker @
+    _.each seeker_schedules, (seeker_schedule)=>
+      if seeker_schedule.isConfirmed() or seeker_schedule.isTemp()
+        has_confirmed = true
+
+    # 初期表示時のみ
+    _.each seeker_schedules, (seeker_schedule)=>
+      if initial
+        seeker_schedule.changeEditable !has_confirmed and seeker_schedule.editable
+      else
+        seeker_schedule.changeEditable !has_confirmed
 
   changeTypeBySeeker: ->
     if @isOK()
