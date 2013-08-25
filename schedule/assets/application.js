@@ -4791,7 +4791,9 @@ return Backbone.LocalStorage;
       this.seeker = new padule.Models.Seeker(this.get('seeker', {
         seeker_schedule: this
       }));
-      return this.schedule = (_ref1 = this.collection) != null ? _ref1.schedule : void 0;
+      this.schedule = (_ref1 = this.collection) != null ? _ref1.schedule : void 0;
+      this.changeEditable();
+      return this.listenTo(this, 'change:type', this.changeEditable);
     };
 
     SeekerSchedule.prototype.isConfirmed = function() {
@@ -4815,24 +4817,31 @@ return Backbone.LocalStorage;
     };
 
     SeekerSchedule.prototype.changeType = function() {
-      if (this.isOK()) {
-        this.set('type', this.types.confirmed);
-      } else if (this.isConfirmed()) {
+      if (this.isOK() || this.isConfirmed()) {
+        this.set('type', this.types.temp);
+      } else if (this.isTemp()) {
         this.set('type', this.types.ok);
       }
-      return this.changeEditable();
-    };
-
-    SeekerSchedule.prototype.changeEditable = function() {
-      var _this = this;
-      this.collection.trigger('changeEditable');
-      return _.each(this.collection.findBySeeker(this), function(seeker_schedule) {
-        return seeker_schedule.trigger('changeEditable', _this.types.confirmed !== _this.get('type'));
+      return this.save({
+        success: function() {
+          var editable;
+          editable = !this.isTemp() && !this.isConfirmed();
+          this.collection.changeEditable(editable);
+          this.collection.changeEditableBySeeker();
+          return this.collection.schedule.collection.trigger('changeType');
+        }
       });
     };
 
-    SeekerSchedule.prototype.editable = function() {
-      return this.types.ng !== this.get('type');
+    SeekerSchedule.prototype.changeEditable = function(editable) {
+      if (this.isConfirmed() || this.isTemp()) {
+        this.editable = true;
+      } else if (editable === void 0) {
+        this.editable = this.isOK();
+      } else {
+        this.editable = editable && !this.isNG();
+      }
+      return this.trigger('afterChangeEditable');
     };
 
     SeekerSchedule.prototype.changeTypeBySeeker = function() {
@@ -4990,11 +4999,42 @@ return Backbone.LocalStorage;
       this.schedule.collection.each(function(schedule) {
         var filters;
         filters = schedule.seeker_schedules.filter(function(each) {
-          return each.seeker.get('name') === seeker_schedule.seeker.get('name') && each.id !== seeker_schedule.id;
+          return each.seeker.get('name') === seeker_schedule.seeker.get('name');
         });
         return result = result.concat(filters);
       });
       return result;
+    };
+
+    SeekerSchedules.prototype.hasConfirmed = function() {
+      var confirms;
+      confirms = this.filter(function(seeker_schedule) {
+        return seeker_schedule.isConfirmed() || seeker_schedule.isTemp();
+      });
+      return (confirms != null ? confirms.length : void 0) > 0;
+    };
+
+    SeekerSchedules.prototype.changeEditable = function(editable) {
+      return this.each(function(seeker_schedule) {
+        return seeker_schedule.changeEditable(editable);
+      });
+    };
+
+    SeekerSchedules.prototype.changeEditableBySeeker = function() {
+      var _this = this;
+      return this.each(function(each) {
+        var has_confirmed, seeker_schedules;
+        has_confirmed = false;
+        seeker_schedules = _this.findBySeeker(each);
+        _.each(seeker_schedules, function(seeker_schedule) {
+          if (seeker_schedule.isConfirmed() || seeker_schedule.isTemp()) {
+            return has_confirmed = true;
+          }
+        });
+        return _.each(seeker_schedules, function(seeker_schedule) {
+          return seeker_schedule.changeEditable(!has_confirmed && !seeker_schedule.collection.hasConfirmed());
+        });
+      });
     };
 
     return SeekerSchedules;
@@ -5171,6 +5211,13 @@ return Backbone.LocalStorage;
       if (value) {
         this.model.save({
           title: value
+        }, {
+          success: function() {
+            return padule.info_area.render({
+              text: 'スケジュールを追加しました。',
+              class_name: 'label-info'
+            });
+          }
         });
         return this.$el.removeClass('editing');
       }
@@ -5283,6 +5330,7 @@ return Backbone.LocalStorage;
       this.buttonContainer = this.$('.button-container');
       this.listenTo(this.collection, 'sync', this._clear);
       this.listenTo(this.collection, 'sync', this.render);
+      this.listenTo(this.collection, 'changeType', this.enableConfirmButton);
       this.clear();
       this.startLoading();
       return this.collection.fetchByEvent();
@@ -5302,6 +5350,7 @@ return Backbone.LocalStorage;
         collection: this.collection
       });
       this.controlContainer.html(this.control.render().el);
+      this.enableConfirmButton();
       this.buttonContainer.show();
       return this.endLoading();
     };
@@ -5312,6 +5361,24 @@ return Backbone.LocalStorage;
 
     Schedule.prototype.endLoading = function() {
       return this.$el.removeClass('loading');
+    };
+
+    Schedule.prototype.enableConfirmButton = function() {
+      var has_temp,
+        _this = this;
+      has_temp = false;
+      this.collection.each(function(schedule) {
+        return schedule.seeker_schedules.each(function(seeker_schedule) {
+          if (seeker_schedule.isTemp()) {
+            has_temp = true;
+          }
+        });
+      });
+      if (has_temp) {
+        return this.buttonContainer.find('#confirmButton').removeClass('disabled');
+      } else {
+        return this.buttonContainer.find('#confirmButton').addClass('disabled');
+      }
     };
 
     return Schedule;
@@ -5373,14 +5440,20 @@ return Backbone.LocalStorage;
         start_time: this._getStartTime()
       });
       this.collection.push(new_schedule);
-      return new_schedule.saveByEvent();
+      return new_schedule.saveByEvent({
+        success: function() {
+          return padule.info_area.render({
+            text: 'スケジュールを追加しました。',
+            class_name: 'label-info'
+          });
+        }
+      });
     };
 
     ScheduleControl.prototype._validateDatetime = function() {
       var date;
       date = this.datepicker.val();
       if (!padule.checkDateFormat(date)) {
-        padule.info_area || (padule.info_area = new padule.Views.InfoArea);
         padule.info_area.render({
           text: '日づけのフォーマットが正しく入力してください。',
           class_name: 'label-danger'
@@ -5490,7 +5563,14 @@ return Backbone.LocalStorage;
 
     ScheduleTbody.prototype.render = function() {
       this.collection.each(this.renderOne);
+      this.changeEditable();
       return this;
+    };
+
+    ScheduleTbody.prototype.changeEditable = function() {
+      if (this.collection.length > 0 && this.collection.at(0).seeker_schedules.length > 0) {
+        return this.collection.at(0).seeker_schedules.changeEditableBySeeker();
+      }
     };
 
     return ScheduleTbody;
@@ -5573,8 +5653,7 @@ return Backbone.LocalStorage;
 
     ScheduleTbodyTr.prototype.initialize = function() {
       _.bindAll(this);
-      this.seeker_schedules = this.model.seeker_schedules;
-      return this.listenTo(this.seeker_schedules, 'changeEditable', this.changeDisabled);
+      return this.seeker_schedules = this.model.seeker_schedules;
     };
 
     ScheduleTbodyTr.prototype.renderOne = function(seeker_schedule) {
@@ -5588,7 +5667,7 @@ return Backbone.LocalStorage;
     ScheduleTbodyTr.prototype.render = function() {
       this.renderTh();
       this.seeker_schedules.each(this.renderOne);
-      this.changeDisabled();
+      this.changeEditable();
       return this;
     };
 
@@ -5600,15 +5679,13 @@ return Backbone.LocalStorage;
       return this.$el.append(view.render().el);
     };
 
-    ScheduleTbodyTr.prototype.changeDisabled = function() {
-      var confirms;
-      confirms = this.seeker_schedules.filter(function(seeker_schedule) {
-        return seeker_schedule.types.confirmed === seeker_schedule.get('type');
-      });
-      if ((confirms != null ? confirms.length : void 0) > 0) {
-        return this.$el.addClass('disabled');
+    ScheduleTbodyTr.prototype.changeEditable = function() {
+      if (this.seeker_schedules.hasConfirmed()) {
+        this.$el.addClass('disabled');
+        return this.seeker_schedules.changeEditable(false);
       } else {
-        return this.$el.removeClass('disabled');
+        this.$el.removeClass('disabled');
+        return this.seeker_schedules.changeEditable(true);
       }
     };
 
@@ -5641,7 +5718,7 @@ return Backbone.LocalStorage;
     ScheduleTd.prototype.initialize = function() {
       _.bindAll(this);
       this.listenTo(this.model, 'change:type', this.render);
-      return this.listenTo(this.model, 'changeEditable', this.changeDisabled);
+      return this.listenTo(this.model, 'afterChangeEditable', this.changeDisabled);
     };
 
     ScheduleTd.prototype.render = function(editable) {
@@ -5654,8 +5731,8 @@ return Backbone.LocalStorage;
       return this;
     };
 
-    ScheduleTd.prototype.changeDisabled = function(editable) {
-      if (editable && this.model.editable()) {
+    ScheduleTd.prototype.changeDisabled = function() {
+      if (this.model.editable) {
         return this.$('.schedule-btn').removeClass('disabled');
       } else {
         return this.$('.schedule-btn').removeClass('disabled').addClass('disabled');

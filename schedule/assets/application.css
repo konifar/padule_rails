@@ -644,7 +644,7 @@ body > #scheduleContents {
   min-width: 50px;
 }
 /* line 180, ../../app/assets/stylesheets/schedule.css.scss */
-#scheduleContents .schedule-btn.disabled.btn-default {
+#scheduleContents .schedule-btn.disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
   opacity: 0.2;
 }
