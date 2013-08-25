@@ -38,11 +38,14 @@ class padule.Views.SeekerScheduleInput extends Backbone.View
       title: 'スケジュールを送信します'
       contents: 'よろしいですか？'
       callback: =>
-        @seeker.save
-          success: =>
-            @collection.each (schedule)->
-              schedule.seeker_schedules.last().save()
-            @afterSending()
+        @seeker.set 'event_id', @event.id
+        @seeker.save {},
+          success: (seeker)=>
+            @collection.each (schedule)=>
+              schedule.seeker_schedules.last().set 'seeker_id', seeker.id
+              schedule.seeker_schedules.last().save {},
+                success: (seeker_schedule)=>
+                  @afterSending()
 
   afterSending: ->
     @$('.necessary').attr 'disabled', true
