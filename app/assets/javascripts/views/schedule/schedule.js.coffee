@@ -10,6 +10,7 @@ class padule.Views.Schedule extends Backbone.View
 
     @listenTo @collection, 'sync', @_clear
     @listenTo @collection, 'sync', @render
+    @listenTo @collection, 'changeType', @enableConfirmButton
 
     @clear()
     @startLoading()
@@ -28,6 +29,7 @@ class padule.Views.Schedule extends Backbone.View
       collection: @collection
     @controlContainer.html @control.render().el
 
+    @enableConfirmButton()
     @buttonContainer.show()
 
     @endLoading()
@@ -37,3 +39,16 @@ class padule.Views.Schedule extends Backbone.View
 
   endLoading: ->
     @$el.removeClass 'loading'
+
+  enableConfirmButton: ->
+    has_temp = false
+    @collection.each (schedule)=>
+      schedule.seeker_schedules.each (seeker_schedule)=>
+        if seeker_schedule.isTemp()
+          has_temp = true
+          return
+
+    if has_temp
+      @buttonContainer.find('#confirmButton').removeClass 'disabled'
+    else
+      @buttonContainer.find('#confirmButton').addClass 'disabled'
