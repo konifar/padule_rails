@@ -25,7 +25,11 @@ class padule.Views.EventListElement extends Backbone.View
   close: ->
     value = @input.val()
     if value
-      @model.save {title: value}
+      @model.save {title: value},
+        success: ->
+          padule.info_area.render
+            text: 'スケジュールを追加しました。'
+            class_name: 'label-info'
       @$el.removeClass 'editing'
 
   render: ->
