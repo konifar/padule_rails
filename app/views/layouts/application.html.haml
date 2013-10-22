@@ -1,0 +1,22 @@
+!!!
+%html
+  %head
+    %title Padule
+    = favicon_link_tag 'favicon.ico'
+    = stylesheet_link_tag    "application"
+    %meta{:name => "keywords", :content => "スケジュール,調整"}
+    %meta{:name => "description", :content => "スケジュール,調整"}
+    %meta{:property => "og:title", :content => "Padule"}
+    %meta{:property => "og_image", :content => ""}
+    %meta{:property => "og:description", :content => ""}
+    %meta{:property => "og:type", :content => "website"}
+    %meta{:property => "og:url", :content => ""}
+    %meta{:property => "og:site_name", :content => "Padule"}
+    %meta{:charset => "utf-8"}
+    %meta{:name => "viewport", :content => "width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no"}
+
+  %body
+    = yield
+    :javascript
+      if (window.padule == null) window.padule = { Models: {}, Collections: {}, Views: {},Routers: {} };
+    = javascript_include_tag "application"

@@ -1,0 +1,16 @@
+Searching 6633 files for "$body-color"
+
+/Users/konifar/Work/WebWorkspace/padule_rails/padule/app/assets/stylesheets/padule.scss:
+    2
+    3  $nav-height: 40px;
+    4: $body-color: #F8F8F8;
+    5
+    6  @mixin line-top($op1: .2, $op2: .3) {
+    .
+   29
+   30  html body {
+   31:   background-color: $body-color;
+   32    padding-top: $nav-height;
+   33  }
+
+2 matches in 1 file

@@ -1,0 +1,51 @@
+.navbar.navbar-inverse.navbar-fixed-top.padule-nav
+  .container-fluid
+    = link_to 'Padule', '/', :class => "navbar-brand"
+    .info-area.pull-left
+      %span.label
+
+    %ul#userInfo.nav.navbar-nav.pull-right
+      %li.dropdown
+        %a{:href=>"#", :data=>{:toggle=>'dropdown'}, :class=> 'pull-right'}
+          %i.glyphicon.glyphicon-user
+
+        %ul.dropdown-menu
+          %li
+            = link_to 'ログアウト', '#'
+
+.schedule-container.container-fluid
+  .row-fluid
+    #eventSidebar
+      %ul#eventList.nav
+      #addEventButtonContainer
+        %button.add-event-btn.btn.btn-default
+          %i.glyphicon.glyphicon-plus
+          スケジュール追加
+
+    #scheduleContents
+      .control-container
+      .schedule-table-container
+        .no-event
+          %span
+            %i.glyphicon.glyphicon-info-sign
+            Paduleへようこそ！
+          %span
+            スケジュールを作成するか、作成したスケジュールを選択してください。
+      .button-container
+        %button#confirmButton.btn.btn-lg.btn-success.disabled{:type => 'button'}
+          編集した日時を確定
+
+#alertModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{:type=>'button', :aria=>{:hidden=>'modal-body'}, :data=>{:dismiss => 'modal'}}
+          &times;
+        %i.glyphicon.glyphicon-question-sign
+        %span.modal-title
+      .modal-body
+      .modal-footer
+        %button#alertOK.btn.btn-success{:type => 'button'}
+          はい
+        %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}
+          いいえ

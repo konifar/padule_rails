@@ -1,0 +1,239 @@
+@import "padule";
+
+.seeker-schedule-container {
+  margin-left: $margin1;
+  margin-right: $margin1;
+  padding: $margin1;
+  background-color: $gray1;
+  height: 100%;
+  min-height: 100%;
+
+  .event-container {
+    @include line-bottom;
+    margin-bottom: $margin2;
+  }
+  .event-title {
+    font-weight: bold;
+  }
+  .seeker-container {
+    margin-bottom: $margin2 * 2;
+  }
+  #seeker-schedule-edit {
+    .schedule-time {
+      height: 30px;
+      display: block;
+      padding-top: 8px;
+    }
+    .seeker-schedule-btn {
+      float: right;
+    }
+  }
+  .edit-container > p {
+    font-weight: bold;
+  }
+  .important {
+    color: $red1;
+  }
+  .control-container {
+    margin: -$margin1;
+    padding: $margin1;
+    @include line-top;
+    @include gradient-top-lighten($gray2);
+  }
+}
+body > .seeker-schedule-container {
+  height: auto;
+  min-height: auto;
+}
+
+.schedule-container{
+  padding-left: $margin1;
+  padding-right: $margin1;
+  height: 100%;
+  .row-fluid {
+    height: 100%;
+  }
+}
+
+#eventSidebar {
+  position: fixed;
+  top: $nav-height;
+  bottom: 0;
+  left: $margin1;
+  width: $sidebar-width;
+  background-color: $gray2;
+  @include line-right;
+
+  #addEventButtonContainer {
+    padding: 10px;
+    button {
+      width: 100%;
+    }
+  }
+
+  #eventList {
+    li {
+      @include transition-duration(0.1s);
+      @include line-bottom;
+      &.active {
+        @include gradient-top-lighten($gray1);
+        a {
+          @include gradient-top-lighten($gray1);
+          font-weight: bold;
+          border-left: 6px solid $orange1;
+          cursor: default;
+        }
+      }
+      .edit {
+        display: none;
+        margin: 6px;
+        width: 80%;
+      }
+      &.editing {
+        .edit {
+          display: block;
+        }
+        a {
+          display: none;
+        }
+      }
+      &:hover {
+        background-color: $gray4;
+        .close {
+          display: block;
+        }
+      }
+    }
+
+    a {
+      @include transition-duration(0.1s);
+      display: block;
+      width: 170px;
+      padding: 10px;
+      color: $navy1;
+      @include ts-fff;
+      &:hover {
+        background-color: $gray4;
+      }
+    }
+    .close {
+      padding-top: 10px;
+      padding-right: 10px;
+      font-size: 18px;
+      display: none;
+    }
+  }
+}
+
+body > #scheduleContents {
+  height: auto;
+}
+
+#scheduleContents {
+  position: relative;
+  margin-left: $sidebar-width;
+  padding: $margin2;
+  height: 100%;
+  min-height: 100%;
+  background-color: $gray2;
+
+  .schedule-table-container {
+    font-size: $font-size1;
+    background-color: $white1;
+    @include box-emboss;
+    table {
+      margin-bottom: $margin2;
+    }
+    .no-event {
+      padding: $margin1;
+      font-size: $font-size2;
+    }
+  }
+
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  tbody th {
+    max-width: 200px;
+    width: 200px;
+    .schedule-delete-button {
+      width: 20px;
+      font-size: 18px;
+      display: none;
+    }
+    .schedule-time {
+      width: 150px;
+      max-width: 150px;
+    }
+  }
+
+  tr:hover {
+    .schedule-delete-button {
+      display: block;
+    }
+  }
+
+  .schedule-btn {
+    @include transition-duration(0.25s);
+    min-width: 50px;
+    &.disabled {
+      @include opacity(.2);
+    }
+  }
+
+  .button-container {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: $margin1;
+    @include line-top;
+    @include gradient-top-lighten($gray2);
+    text-align: center;
+  }
+
+}
+
+.control-container {
+  margin-bottom: $margin2;
+  button, a {
+    width: 100%;
+  }
+  .event-contents {
+    h3 {
+      margin-top: 0;
+      font-weight: bold;
+    }
+  }
+
+  .schedule-add > div {
+    margin-right: 6px;
+  }
+
+  #scheduleDatepicker {
+    width: 120px;
+  }
+  #scheduleTimepicker {
+    width: 120px;
+  }
+  #addScheduleButton {
+    width: 120px;
+  }
+}
+
+.loading {
+  background-image: url('loading.gif') !important;
+  background-repeat: no-repeat !important;
+  background-position: center 50px;
+  background-size: 100px;
+  height: 100%;
+}
+
+#alertModal {
+  .modal-header {
+    font-size: $font-size3;
+  }
+}

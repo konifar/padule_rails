@@ -1,0 +1,61 @@
+.navbar.navbar-inverse.navbar-fixed-top.padule-nav
+  .container-fluid
+    = link_to 'Padule', '../', :class => "navbar-brand"
+
+.seeker-schedule-container.container-fluid{:data=>{:eventid=>"2"}}
+  .event-container
+    %h4.event-title
+    %p.event-text
+
+  .seeker-container
+    .form-group
+      %label{:for=>"inputName"}
+        氏名
+      %label.important
+        (必須)
+      %input#inputName.necessary.input-sm.form-control{:type=>"text", :placeholder=>"氏名"}
+    .form-group
+      %label{:for=>"inputEmail"}
+        メールアドレス
+      %label.important
+        (必須)
+      %input#inputEmail.necessary.input-sm.form-control{:type=>"email", :placeholder=>"メールアドレス"}
+    .form-group.input-email2
+      %label{:for=>"inputEmail"}
+        メールアドレス（確認）
+      %label.important
+        (必須)
+      %input#inputEmail2.necessary.input-sm.form-control{:type=>"email", :placeholder=>"メールアドレス"}
+
+  .edit-container
+    %p
+      ■ 参加可能な日時を選択してください。
+    #seeker-schedule-edit
+      %ul.list-group
+
+  .seeker-container
+    .form-group
+      %label
+        コメント
+      %textarea#inputComment.form-control{:rows=>"3", :placeholder=>"日程に関して、何か伝えたいことがあれば記述してください。"}
+
+  .control-container
+    %p.attention.important
+      ※ 一度送信した内容は修正できません。
+    %button#sendSeekerSchedule.disabled.btn.btn-success.btn-lg
+      内容を送信する
+
+#alertModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{:type=>'button', :aria=>{:hidden=>'modal-body'}, :data=>{:dismiss => 'modal'}}
+          &times;
+        %i.glyphicon.glyphicon-question-sign
+        %span.modal-title
+      .modal-body
+      .modal-footer
+        %button#alertOK.btn.btn-success{:type => 'button'}
+          はい
+        %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}
+          いいえ

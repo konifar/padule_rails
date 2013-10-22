@@ -1,0 +1,20 @@
+<div class="pull-right">
+  <div class="schedule-add form-inline">
+    <div class="bootstrap-datepicker pull-left">
+      <input type="text" id="scheduleDatepicker" class="span2 form-control" placeholder="年月日">
+    </div>
+    <div class="bootstrap-timepicker pull-left">
+      <input id="scheduleTimepicker" class="span2 form-control" type="text" placeholder="開始時間">
+    </div>
+    <button id="addScheduleButton" class="btn btn-default disabled">
+      <i class="glyphicon glyphicon-plus"></i>
+      日程追加
+    </button>
+  </div>
+</div>
+<div class="event-contents">
+  <h3><%= @event.title %></h3>
+  <p>
+    共有URL : <%= @event.url %>
+  </p>
+</div>
